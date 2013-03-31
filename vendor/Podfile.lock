@@ -1,0 +1,11 @@
+
+PODS:
+- Evernote-SDK-iOS (1.1.0)
+
+DEPENDENCIES:
+- Evernote-SDK-iOS
+
+SPEC CHECKSUMS:
+  Evernote-SDK-iOS: c82352c91f0f7a900bd3fb3329ff9543586be891
+
+COCOAPODS: 0.16.4
