@@ -1,7 +1,7 @@
 class AppDelegate 	
 	EVERNOTE_HOST = BootstrapServerBaseURLStringSandbox
-	CONSUMER_KEY = "mikaelharsjo"
-	CONSUMER_SECRET = "b9675bc5102a6a86"
+	CONSUMER_KEY = 'mikaelharsjo-3345' #"mikaelharsjo"
+	CONSUMER_SECRET = 'd3c1fe39624814f0' #"b9675bc5102a6a86"
 	
 	def application(application, didFinishLaunchingWithOptions:launchOptions)
 		EvernoteSession.setSharedSessionHost(EVERNOTE_HOST, consumerKey:CONSUMER_KEY, consumerSecret:CONSUMER_SECRET)

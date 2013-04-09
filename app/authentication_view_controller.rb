@@ -27,6 +27,7 @@ class AuthenticationViewController < UIViewController
 					puts 'Were authenticated!'				
 					userStore = EvernoteUserStore.userStore
 					userStore.getUserWithSuccess lambda {|user| puts user.username}, failure: lambda {|error| puts "#{error.domain} #{error.code}"}	
+					# Todo redirect to list/help?
 				end
 				
 		
