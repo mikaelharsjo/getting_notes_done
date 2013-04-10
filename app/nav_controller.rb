@@ -50,15 +50,22 @@ class NavController < UIViewController
 		p @notes[indexPath.row]
 		#text_cell.textLabel.text = @notes[indexPath.row].title
 		#text_cell.textLabel.textAlignment = UITextAlignmentRight
-		checkbox_width = 55
-		label = UILabel.alloc.initWithFrame CGRectMake(90, 6, 200, 25)
+		checkbox_width = 25
+		total_width = self.view.bounds.size.width
+		label_rect = CGRectMake(90, 6, total_width - checkbox_width, 25)
+		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
+
+		label = UILabel.alloc.initWithFrame label_rect
 		label.setText @notes[indexPath.row].title
 
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
-		check_button.frame = CGRectMake(10, 6, checkbox_width, 25)
-		check_button.backgroundColor = UIColor.whiteColor
-		check_button.setTitle "button", forState:UIControlStateNormal 
+		check_button.setBackgroundImage UIImage.imageNamed('checkbox.png'), forState: UIControlStateNormal 
+		check_button.setBackgroundImage UIImage.imageNamed('checkbox_checked.png'), forState: UIControlStateSelected
+		check_button.setBackgroundImage UIImage.imageNamed('checkbox_checked.png'), forState: UIControlStateHighlighted
+		check_button.adjustsImageWhenHighlighted = true
+		check_button.addTarget self, action: 'checkbox_selected:', forControlEvents: UIControlEventTouchUpInside
+		check_button.frame = check_button_rect
 		#text_cell.contentView.addSubview check_button
 		text_cell.contentView.addSubview check_button
 		text_cell.contentView.addSubview label
@@ -66,6 +73,13 @@ class NavController < UIViewController
 		# put your data in the cell
 
 		text_cell
+	end
+
+	def checkbox_selected sender
+		p "clicked #{sender}"  #{button}"
+		sender.setSelected true
+		#checkboxSelected = !checkboxSelected;
+    	#checkbox setSelected:checkboxSelected];
 	end
 
 	def tableView(tableView, numberOfRowsInSection: section)
