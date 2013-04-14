@@ -3,8 +3,10 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 require 'motion-cocoapods'
 require 'formotion'
+require 'teacup'
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
+  app.fonts = ['Inconsolata.ttf', 'one_stroke_script.ttf', 'Delius-Regular.ttf'] 
   app.name = 'Evernote'
   app.frameworks += ['Security', 'QuartzCore']
   app.pods do
@@ -15,3 +17,5 @@ Motion::Project::App.setup do |app|
       'CFBundleURLSchemes' => ['en-mikaelharsjo'] }
   ]
 end
+#require 'bundler'
+#Bundler.require(:default)

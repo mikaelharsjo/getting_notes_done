@@ -1,36 +1,45 @@
 class NavController < UIViewController
+	stylesheet :main_screen
+
 	include EvernoteHelpers
 
-	#attr_reader :notes
-
 	def viewDidLoad
-		view.backgroundColor = UIColor.whiteColor
-		self.title = "Next actions"
-		@notes =Array.new
-		@table = UITableView.alloc.initWithFrame self.view.bounds
-		@table.dataSource = self
-		view.addSubview @table
-		#view.layer.cornerRadius = 55
+	 	view.backgroundColor = UIColor.whiteColor
+	 	self.title = "Next actions"
+	 	@notes = Array.new
+	 	@table = UITableView.alloc.initWithFrame self.view.bounds
+	 	@table.dataSource = self
+	 	view.addSubview @table
+	 	#view.layer.cornerRadius = 55
 
-		@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
-		self.navigationItem.rightBarButtonItem = @nav_add_button
+	 	@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
+	 	self.navigationItem.rightBarButtonItem = @nav_add_button
 
-		load_notes
+	 	load_notes
 	end
 
 	def load_notes
 		@session = EvernoteSession.sharedSession
-		note_store = EvernoteNoteStore.noteStore
+		@note_store = EvernoteNoteStore.noteStore
 		filter = EDAMNoteFilter.alloc.initWithOrder 0, ascending:false, words:nil, notebookGuid:nil, tagGuids:nil, timeZone:nil, inactive:false, emphasized:nil
 		#note_store.findNotesWithFilter filter, offset:0, maxNotes:10, success: notes_loaded, failure: output_error
  
-		spec = EDAMNotesMetadataResultSpec.alloc.initWithIncludeTitle true, includeContentLength:false, includeCreated:false, includeUpdated:false, includeUpdateSequenceNum:false, includeNotebookGuid:false, includeTagGuids:false, includeAttributes:false, includeLargestResourceMime:false, includeLargestResourceSize:false
- 		note_store.findNotesMetadataWithFilter filter, offset:0, maxNotes:10, resultSpec:spec, success: notes_loaded, failure: output_error
+		spec = EDAMNotesMetadataResultSpec.alloc.initWithIncludeTitle true, includeContentLength:false, includeCreated:false, includeUpdated:false, includeUpdateSequenceNum:false, includeNotebookGuid:false, includeTagGuids:true, includeAttributes:false, includeLargestResourceMime:false, includeLargestResourceSize:false
+ 		@note_store.findNotesMetadataWithFilter filter, offset:0, maxNotes:10, resultSpec:spec, success: notes_loaded, failure: output_error
 	end
 
 	def notes_loaded
 		lambda do |meta_data|
-			@notes = meta_data.notes
+			meta_data.notes.each do |note|
+				new_note = Note.new(note.title) 
+				@notes << new_note				
+				# if note.tagGuids
+				# 	note.tagGuids.each do |tagGuid|
+				# 		@note_store.getTagWithGuid tagGuid, success: lambda {|tag| new_note.tags << tag.name}, failure: output_error
+				# 	end	
+				# end
+			end
+			
 			@table.reloadData
 		end
 	end
@@ -46,18 +55,17 @@ class NavController < UIViewController
 		button_cell = tableView.dequeueReusableCellWithIdentifier(@reuseIdentifier) || begin
 		  UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_id_for_text_cell)
 		end
-
-		p @notes[indexPath.row]
+		
 		#text_cell.textLabel.text = @notes[indexPath.row].title
 		#text_cell.textLabel.textAlignment = UITextAlignmentRight
 		checkbox_width = 25
 		total_width = self.view.bounds.size.width
-		label_rect = CGRectMake(90, 6, total_width - checkbox_width, 25)
+		label_rect = CGRectMake(60, 6, total_width - checkbox_width, 25)
 		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
 
 		label = UILabel.alloc.initWithFrame label_rect
+		label.setFont UIFont.fontWithName('Delius', size: 18)
 		label.setText @notes[indexPath.row].title
-
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.setBackgroundImage UIImage.imageNamed('checkbox.png'), forState: UIControlStateNormal 
