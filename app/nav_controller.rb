@@ -70,10 +70,13 @@ class NavController < UIViewController
 		label.setFont UIFont.fontWithName('Delius', size: 18)
 		label.setText @notes[indexPath.row].title
 		label.backgroundColor = UIColor.clearColor
-		#label.layer.shadowColor = UIColor.redColor #label.textColor.CGColor
-
+		label.layer.shadowColor = UIColor.grayColor.CGColor #label.textColor.CGColor
+		label.layer.shadowOffset = CGSizeMake 0.0, 1.0
+		label.layer.shadowOpacity = 1
+		label.layer.shadowRadius = 1
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
+		check_button.backgroundColor = UIColor.clearColor
 		check_button.setBackgroundImage UIImage.imageNamed('checkbox.png'), forState: UIControlStateNormal 
 		check_button.setBackgroundImage UIImage.imageNamed('checkbox_checked.png'), forState: UIControlStateSelected
 		check_button.setBackgroundImage UIImage.imageNamed('checkbox_checked.png'), forState: UIControlStateHighlighted
