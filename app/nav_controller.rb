@@ -7,9 +7,12 @@ class NavController < UIViewController
 	 	view.backgroundColor = UIColor.whiteColor
 	 	self.title = "Next actions"
 	 	@notes = Array.new
-	 	@table = UITableView.alloc.initWithFrame self.view.bounds
-	 	@table.dataSource = self
-	 	view.addSubview @table
+	 	@table_view = UITableView.alloc.initWithFrame self.view.bounds
+	 	image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('linen_paper.png'))
+	 	@table_view.dataSource = self
+	 	@table_view.opaque = false
+	 	@table_view.backgroundView = image_view
+	 	view.addSubview @table_view
 	 	#view.layer.cornerRadius = 55
 
 	 	@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
@@ -40,7 +43,7 @@ class NavController < UIViewController
 				# end
 			end
 			
-			@table.reloadData
+			@table_view.reloadData
 		end
 	end
 
@@ -66,6 +69,9 @@ class NavController < UIViewController
 		label = UILabel.alloc.initWithFrame label_rect
 		label.setFont UIFont.fontWithName('Delius', size: 18)
 		label.setText @notes[indexPath.row].title
+		label.backgroundColor = UIColor.clearColor
+		#label.layer.shadowColor = UIColor.redColor #label.textColor.CGColor
+
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.setBackgroundImage UIImage.imageNamed('checkbox.png'), forState: UIControlStateNormal 
