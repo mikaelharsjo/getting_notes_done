@@ -10,9 +10,15 @@ class AppDelegate
     	@window.makeKeyAndVisible
 		
 		unless @session.isAuthenticated
-			@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
+			@window.rootatViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 		else
 			nav_controller = NavController.alloc.init
+			UINavigationBar.appearance.setBackgroundImage UIImage.imageNamed('menu-bar.png'), forBarMetrics: UIBarMetricsDefault
+			UINavigationBar.appearance.setTitleTextAttributes({
+				UITextAttributeFont => UIFont.fontWithName('Inconsolata', size:24),
+ 				UITextAttributeTextShadowColor => UIColor.grayColor,   #WithGray(0.0, alpha:0.4),
+				UITextAttributeTextColor => UIColor.whiteColor
+			})
 			@window.rootViewController = UINavigationController.alloc.initWithRootViewController nav_controller
 		end
 		true
