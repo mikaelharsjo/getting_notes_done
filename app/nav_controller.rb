@@ -8,7 +8,7 @@ class NavController < UIViewController
 	 	self.title = "Next actions"
 	 	@notes = Array.new
 	 	@table_view = UITableView.alloc.initWithFrame self.view.bounds
-	 	image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('linen_paper.png'))
+	 	image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/linen_paper.png'))
 	 	@table_view.dataSource = self
 	 	@table_view.opaque = false
 	 	@table_view.backgroundView = image_view
@@ -67,7 +67,7 @@ class NavController < UIViewController
 		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
 
 		label = UILabel.alloc.initWithFrame label_rect
-		label.setFont UIFont.fontWithName('Delius', size: 18)
+		label.setFont UIFont.fontWithName('fonts/Delius', size: 18)
 		label.setText @notes[indexPath.row].title
 		label.backgroundColor = UIColor.clearColor
 		label.layer.shadowColor = UIColor.grayColor.CGColor #label.textColor.CGColor
@@ -77,9 +77,9 @@ class NavController < UIViewController
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
-		check_button.setBackgroundImage UIImage.imageNamed('checkbox.png'), forState: UIControlStateNormal 
-		check_button.setBackgroundImage UIImage.imageNamed('checkbox_checked.png'), forState: UIControlStateSelected
-		check_button.setBackgroundImage UIImage.imageNamed('checkbox_checked.png'), forState: UIControlStateHighlighted
+		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox.png'), forState: UIControlStateNormal 
+		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox_checked.png'), forState: UIControlStateSelected
+		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox_checked.png'), forState: UIControlStateHighlighted
 		check_button.adjustsImageWhenHighlighted = true
 		check_button.addTarget self, action: 'checkbox_selected:', forControlEvents: UIControlEventTouchUpInside
 		check_button.frame = check_button_rect
