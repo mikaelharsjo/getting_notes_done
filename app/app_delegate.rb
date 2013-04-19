@@ -10,14 +10,17 @@ class AppDelegate
     	@window.makeKeyAndVisible
 		
 		add_global_styles
-		
+
 		unless @session.isAuthenticated
 			@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 		else
-			nav_controller = NavController.alloc.init
+			controller = NextActionsController.alloc.initWithNibName nil, bundle: nil
+			next_actions_controller = UINavigationController.alloc.initWithRootViewController controller
+			auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 
-			
-			@window.rootViewController = UINavigationController.alloc.initWithRootViewController nav_controller
+			tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
+  			tab_controller.viewControllers = [next_actions_controller, auth_controller]
+  			@window.rootViewController = tab_controller
 		end
 		true
   	end
@@ -34,6 +37,8 @@ class AppDelegate
 
 		bar_button_image = UIImage.imageNamed 'images/menubar-brn.png'
 		UIBarButtonItem.appearance.setBackgroundImage bar_button_image, forState:UIControlStateNormal, barMetrics:UIBarMetricsDefault  		
+	
+		UITabBar.appearance.setBackgroundImage UIImage.imageNamed('images/tabbar.png')
 	end
 
  

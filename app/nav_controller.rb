@@ -1,24 +1,24 @@
-class NavController < UIViewController
+class NextActionsController < UIViewController
 	stylesheet :main_screen
 
 	include EvernoteHelpers
 
 	def viewDidLoad
-	 	view.backgroundColor = UIColor.whiteColor
-	 	self.title = "Next actions"
-	 	@notes = Array.new
-	 	@table_view = UITableView.alloc.initWithFrame self.view.bounds
-	 	image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/linen_paper.png'))
-	 	@table_view.dataSource = self
-	 	@table_view.opaque = false
-	 	@table_view.backgroundView = image_view
-	 	view.addSubview @table_view
-	 	#view.layer.cornerRadius = 55
+		view.backgroundColor = UIColor.whiteColor
+		self.title = "Next actions"
+		@notes = Array.new
+		@table_view = UITableView.alloc.initWithFrame self.view.bounds
+		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
+		@table_view.dataSource = self
+		@table_view.opaque = false
+		@table_view.backgroundView = image_view
+		view.addSubview @table_view
+		#view.layer.cornerRadius = 55
 
-	 	@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
-	 	self.navigationItem.rightBarButtonItem = @nav_add_button
+		@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
+		self.navigationItem.rightBarButtonItem = @nav_add_button
 
-	 	load_notes
+		load_notes
 	end
 
 	def load_notes
@@ -28,7 +28,7 @@ class NavController < UIViewController
 		#note_store.findNotesWithFilter filter, offset:0, maxNotes:10, success: notes_loaded, failure: output_error
  
 		spec = EDAMNotesMetadataResultSpec.alloc.initWithIncludeTitle true, includeContentLength:false, includeCreated:false, includeUpdated:false, includeUpdateSequenceNum:false, includeNotebookGuid:false, includeTagGuids:true, includeAttributes:false, includeLargestResourceMime:false, includeLargestResourceSize:false
- 		@note_store.findNotesMetadataWithFilter filter, offset:0, maxNotes:10, resultSpec:spec, success: notes_loaded, failure: output_error
+		@note_store.findNotesMetadataWithFilter filter, offset:0, maxNotes:10, resultSpec:spec, success: notes_loaded, failure: output_error
 	end
 
 	def notes_loaded
@@ -67,13 +67,13 @@ class NavController < UIViewController
 		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
 
 		label = UILabel.alloc.initWithFrame label_rect
-		label.setFont UIFont.fontWithName('fonts/Delius', size: 18)
+		label.setFont UIFont.fontWithName('Inconsolata', size: 18)
 		label.setText @notes[indexPath.row].title
 		label.backgroundColor = UIColor.clearColor
-		label.layer.shadowColor = UIColor.grayColor.CGColor #label.textColor.CGColor
-		label.layer.shadowOffset = CGSizeMake 0.0, 1.0
-		label.layer.shadowOpacity = 1
-		label.layer.shadowRadius = 1
+		#label.layer.shadowColor = UIColor.grayColor.CGColor #label.textColor.CGColor
+		#label.layer.shadowOffset = CGSizeMake 0.0, 1.0
+		#label.layer.shadowOpacity = 1
+		#label.layer.shadowRadius = 1
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
@@ -92,11 +92,18 @@ class NavController < UIViewController
 		text_cell
 	end
 
+ 	def initWithNibName(name, bundle: bundle)
+		super
+		self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
+		self.tabBarItem 
+		self
+ 	end
+
 	def checkbox_selected sender
 		p "clicked #{sender}"  #{button}"
 		sender.setSelected true
 		#checkboxSelected = !checkboxSelected;
-    	#checkbox setSelected:checkboxSelected];
+		#checkbox setSelected:checkboxSelected];
 	end
 
 	def tableView(tableView, numberOfRowsInSection: section)
