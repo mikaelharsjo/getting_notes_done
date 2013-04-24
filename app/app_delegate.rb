@@ -9,7 +9,7 @@ class AppDelegate
     	@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     	@window.makeKeyAndVisible
 		
-		add_global_styles
+		global_styles
 
 		unless @session.isAuthenticated
 			@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
@@ -25,14 +25,9 @@ class AppDelegate
 		true
   	end
 
-  	def add_global_styles
+  	def global_styles
 		UINavigationBar.appearance.setBackgroundImage UIImage.imageNamed('images/menu-bar.png'), forBarMetrics: UIBarMetricsDefault
-		#UINavigationBar.appearance.setTitleTextAttributes = ({
-		#	UITextAttributeFont => UIFont.fontWithName('fonts/Inconsolata', size:24),
-		#	UITextAttributeTextShadowColor => UIColor.grayColor,   #WithGray(0.0, alpha:0.4),
-		#	UITextAttributeTextColor => UIColor.whiteColor
-		#})
-		back_button_image = UIImage.imageNamed 'images/back.png' #.resizableImageWithCapInsets UIEdgeInsetsMake(0, 13, 0, 6)
+		back_button_image = UIImage.imageNamed 'images/back.png'
 		UIBarButtonItem.appearance.setBackButtonBackgroundImage back_button_image, forState:UIControlStateNormal, barMetrics:UIBarMetricsDefault
 
 		bar_button_image = UIImage.imageNamed 'images/menubar-brn.png'
