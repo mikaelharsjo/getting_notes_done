@@ -15,14 +15,15 @@ class NextActionsController < UIViewController
 		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
 		@table_view.backgroundView = image_view
 
-		notes_TVC = UITableViewController.alloc.init
-		notes_TVC.tableView = @table_view
+		@notes_TVC = UITableViewController.alloc.init
+		@notes_TVC.tableView = @table_view
 		self.addChildViewController notes_TVC
 		refresh_control = UIRefreshControl.alloc.init
 		refresh_control.addTarget self, action: 'handle_refresh', forControlEvents: UIControlEventValueChanged
-		@table_view.addSubview refresh_control
+		#@table_view.addSubview refresh_control
+		@notes_TVC.refreshControl = refresh_control
 
-		view.addSubview notes_TVC.tableView #@table_view
+		view.addSubview @notes_TVC.tableView #@table_view
 
 		@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
 		self.navigationItem.rightBarButtonItem = @nav_add_button
@@ -31,6 +32,7 @@ class NextActionsController < UIViewController
 	end
 
 	def load_actions_from_evernote
+		@notes.refreshControl.beginRefreshing
 		@session = EvernoteSession.sharedSession
 		@note_store = EvernoteNoteStore.noteStore
 		filter = EDAMNoteFilter.alloc.initWithOrder 0, ascending:false, words:nil, notebookGuid:nil, tagGuids:nil, timeZone:nil, inactive:false, emphasized:nil
@@ -41,19 +43,22 @@ class NextActionsController < UIViewController
 	end
 
 	def notes_loaded
-		lambda do |meta_data|
-			meta_data.notes.each do |note|
-				new_note = Note.new(note.title)
-				@notes << new_note
+		@notes_TVC.tableView.reloadData
+		@notes.refreshControl.endRefreshing
+		#lambda do |meta_data|
+		#	meta_data.notes.each do |note|
+		#		new_note = Note.new(note.title)
+		#		@notes << new_note
 				# if note.tagGuids
 				# 	note.tagGuids.each do |tagGuid|
 				# 		@note_store.getTagWithGuid tagGuid, success: lambda {|tag| new_note.tags << tag.name}, failure: output_error
 				# 	end
 				# end
-			end
 
-			@table_view.reloadData
-		end
+		#	end
+
+		#	@table_view.reloadData
+		#end
 	end
 
 	def tableView(tableView, cellForRowAtIndexPath: indexPath)
