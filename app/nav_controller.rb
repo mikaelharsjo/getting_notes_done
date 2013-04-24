@@ -1,4 +1,4 @@
-class NextActionsController < UIViewController
+class NextActionsController < UITableViewController
 	stylesheet :main_screen
 
 	include EvernoteHelpers
@@ -8,22 +8,11 @@ class NextActionsController < UIViewController
 		self.title = "Next actions"
 		@notes = Array.new
 
-		@table_view = UITableView.alloc.initWithFrame self.view.bounds
-		@table_view.dataSource = self
-		@table_view.opaque = false
-
 		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
-		@table_view.backgroundView = image_view
+		self.tableView.backgroundView = image_view
 
-		@notes_TVC = UITableViewController.alloc.init
-		@notes_TVC.tableView = @table_view
-		self.addChildViewController notes_TVC
-		refresh_control = UIRefreshControl.alloc.init
-		refresh_control.addTarget self, action: 'handle_refresh', forControlEvents: UIControlEventValueChanged
-		#@table_view.addSubview refresh_control
-		@notes_TVC.refreshControl = refresh_control
-
-		view.addSubview @notes_TVC.tableView #@table_view
+		self.refreshControl = UIRefreshControl.alloc.init
+		self.refreshControl.addTarget self, action: 'load_actions_from_evernote', forControlEvents: UIControlEventValueChanged
 
 		@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
 		self.navigationItem.rightBarButtonItem = @nav_add_button
@@ -32,33 +21,25 @@ class NextActionsController < UIViewController
 	end
 
 	def load_actions_from_evernote
-		@notes.refreshControl.beginRefreshing
+		self.refreshControl.beginRefreshing
 		@session = EvernoteSession.sharedSession
 		@note_store = EvernoteNoteStore.noteStore
 		filter = EDAMNoteFilter.alloc.initWithOrder 0, ascending:false, words:nil, notebookGuid:nil, tagGuids:nil, timeZone:nil, inactive:false, emphasized:nil
-		#note_store.findNotesWithFilter filter, offset:0, maxNotes:10, success: notes_loaded, failure: output_error
 
 		spec = EDAMNotesMetadataResultSpec.alloc.initWithIncludeTitle true, includeContentLength:false, includeCreated:false, includeUpdated:false, includeUpdateSequenceNum:false, includeNotebookGuid:false, includeTagGuids:true, includeAttributes:false, includeLargestResourceMime:false, includeLargestResourceSize:false
 		@note_store.findNotesMetadataWithFilter filter, offset:0, maxNotes:10, resultSpec:spec, success: notes_loaded, failure: output_error
 	end
 
 	def notes_loaded
-		@notes_TVC.tableView.reloadData
-		@notes.refreshControl.endRefreshing
-		#lambda do |meta_data|
-		#	meta_data.notes.each do |note|
-		#		new_note = Note.new(note.title)
-		#		@notes << new_note
-				# if note.tagGuids
-				# 	note.tagGuids.each do |tagGuid|
-				# 		@note_store.getTagWithGuid tagGuid, success: lambda {|tag| new_note.tags << tag.name}, failure: output_error
-				# 	end
-				# end
+		lambda do |meta_data|
+			meta_data.notes.each do |note|
+				new_note = Note.new(note.title)
+				@notes << new_note
+			end
 
-		#	end
-
-		#	@table_view.reloadData
-		#end
+			self.refreshControl.endRefreshing
+			self.tableView.reloadData
+		end
 	end
 
 	def tableView(tableView, cellForRowAtIndexPath: indexPath)
