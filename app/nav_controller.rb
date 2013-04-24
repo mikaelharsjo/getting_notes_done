@@ -54,21 +54,15 @@ class NextActionsController < UITableViewController
 		  UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_id_for_text_cell)
 		end
 
-		#text_cell.textLabel.text = @notes[indexPath.row].title
-		#text_cell.textLabel.textAlignment = UITextAlignmentRight
 		checkbox_width = 25
 		total_width = self.view.bounds.size.width
-		label_rect = CGRectMake(60, 6, total_width - checkbox_width, 25)
+		label_rect = CGRectMake(60, 10, total_width - checkbox_width, 25)
 		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
 
 		label = UILabel.alloc.initWithFrame label_rect
-		label.setFont UIFont.fontWithName('Inconsolata', size: 18)
+		label.setFont UIFont.fontWithName('Inconsolata', size: 19)
 		label.setText @notes[indexPath.row].title
 		label.backgroundColor = UIColor.clearColor
-		#label.layer.shadowColor = UIColor.grayColor.CGColor #label.textColor.CGColor
-		#label.layer.shadowOffset = CGSizeMake 0.0, 1.0
-		#label.layer.shadowOpacity = 1
-		#label.layer.shadowRadius = 1
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
@@ -78,7 +72,7 @@ class NextActionsController < UITableViewController
 		check_button.adjustsImageWhenHighlighted = true
 		check_button.addTarget self, action: 'checkbox_selected:', forControlEvents: UIControlEventTouchUpInside
 		check_button.frame = check_button_rect
-		#text_cell.contentView.addSubview check_button
+
 		text_cell.contentView.addSubview check_button
 		text_cell.contentView.addSubview label
 
@@ -89,8 +83,8 @@ class NextActionsController < UITableViewController
 
  	def initWithNibName(name, bundle: bundle)
 		super
-		self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
-		self.tabBarItem
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: nil, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
+		#self.tabBarItem
 		self
  	end
 
