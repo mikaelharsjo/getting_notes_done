@@ -7,26 +7,35 @@ class NextActionsController < UIViewController
 		view.backgroundColor = UIColor.whiteColor
 		self.title = "Next actions"
 		@notes = Array.new
+
 		@table_view = UITableView.alloc.initWithFrame self.view.bounds
-		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
 		@table_view.dataSource = self
 		@table_view.opaque = false
+
+		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
 		@table_view.backgroundView = image_view
-		view.addSubview @table_view
-		#view.layer.cornerRadius = 55
+
+		notes_TVC = UITableViewController.alloc.init
+		notes_TVC.tableView = @table_view
+		self.addChildViewController notes_TVC
+		refresh_control = UIRefreshControl.alloc.init
+		refresh_control.addTarget self, action: 'handle_refresh', forControlEvents: UIControlEventValueChanged
+		@table_view.addSubview refresh_control
+
+		view.addSubview notes_TVC.tableView #@table_view
 
 		@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
 		self.navigationItem.rightBarButtonItem = @nav_add_button
 
-		load_notes
+		load_actions_from_evernote
 	end
 
-	def load_notes
+	def load_actions_from_evernote
 		@session = EvernoteSession.sharedSession
 		@note_store = EvernoteNoteStore.noteStore
 		filter = EDAMNoteFilter.alloc.initWithOrder 0, ascending:false, words:nil, notebookGuid:nil, tagGuids:nil, timeZone:nil, inactive:false, emphasized:nil
 		#note_store.findNotesWithFilter filter, offset:0, maxNotes:10, success: notes_loaded, failure: output_error
- 
+
 		spec = EDAMNotesMetadataResultSpec.alloc.initWithIncludeTitle true, includeContentLength:false, includeCreated:false, includeUpdated:false, includeUpdateSequenceNum:false, includeNotebookGuid:false, includeTagGuids:true, includeAttributes:false, includeLargestResourceMime:false, includeLargestResourceSize:false
 		@note_store.findNotesMetadataWithFilter filter, offset:0, maxNotes:10, resultSpec:spec, success: notes_loaded, failure: output_error
 	end
@@ -34,15 +43,15 @@ class NextActionsController < UIViewController
 	def notes_loaded
 		lambda do |meta_data|
 			meta_data.notes.each do |note|
-				new_note = Note.new(note.title) 
-				@notes << new_note				
+				new_note = Note.new(note.title)
+				@notes << new_note
 				# if note.tagGuids
 				# 	note.tagGuids.each do |tagGuid|
 				# 		@note_store.getTagWithGuid tagGuid, success: lambda {|tag| new_note.tags << tag.name}, failure: output_error
-				# 	end	
+				# 	end
 				# end
 			end
-			
+
 			@table_view.reloadData
 		end
 	end
@@ -58,7 +67,7 @@ class NextActionsController < UIViewController
 		button_cell = tableView.dequeueReusableCellWithIdentifier(@reuseIdentifier) || begin
 		  UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_id_for_text_cell)
 		end
-		
+
 		#text_cell.textLabel.text = @notes[indexPath.row].title
 		#text_cell.textLabel.textAlignment = UITextAlignmentRight
 		checkbox_width = 25
@@ -77,7 +86,7 @@ class NextActionsController < UIViewController
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
-		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox.png'), forState: UIControlStateNormal 
+		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox.png'), forState: UIControlStateNormal
 		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox_checked.png'), forState: UIControlStateSelected
 		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox_checked.png'), forState: UIControlStateHighlighted
 		check_button.adjustsImageWhenHighlighted = true
@@ -95,7 +104,7 @@ class NextActionsController < UIViewController
  	def initWithNibName(name, bundle: bundle)
 		super
 		self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
-		self.tabBarItem 
+		self.tabBarItem
 		self
  	end
 
@@ -112,8 +121,8 @@ class NextActionsController < UIViewController
 
 	def setupEvernote
 		@session = EvernoteSession.sharedSession
-		
-		#first_time_setup = FirstTimeSetup.new @note_store		
+
+		#first_time_setup = FirstTimeSetup.new @note_store
 		#first_time_setup.run()
 
 		#@note_store.listTagsWithSuccess output_tags, failure: output_error
@@ -121,9 +130,9 @@ class NextActionsController < UIViewController
 
 	def output_tags
 		lambda do |tags|
-			tags.each {|tag| puts "#{tag.name} #{tag.parentGuid}"} 
+			tags.each {|tag| puts "#{tag.name} #{tag.parentGuid}"}
 		end
-	end	
+	end
 
 	def add_action
 		add_action_controller = AddActionViewController.alloc.init
