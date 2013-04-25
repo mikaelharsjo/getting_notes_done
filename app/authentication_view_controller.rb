@@ -1,8 +1,7 @@
 class AuthenticationViewController < UIViewController
 	def viewDidLoad
 		super
-		#self.view.backgroundColor = UIColor.redColor
-		
+		self.title = "Sign in"		
 	end
 
 	def viewDidAppear animated
@@ -28,8 +27,17 @@ class AuthenticationViewController < UIViewController
 					userStore = EvernoteUserStore.userStore
 					userStore.getUserWithSuccess lambda {|user| puts user.username}, failure: lambda {|error| puts "#{error.domain} #{error.code}"}	
 					next_actions_controller = NextActionsController.alloc.init
+					p self
+					p self.navigationController
 					self.navigationController.pushViewController(next_actions_controller, animated: 'YES')	
 				end	
 			end)	
 	end
+
+ 	def initWithNibName(name, bundle: bundle)
+		super
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: nil, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
+		#self.tabBarItem
+		self
+ 	end
 end

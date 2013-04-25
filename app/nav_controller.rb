@@ -5,7 +5,7 @@ class NextActionsController < UITableViewController
 
 	def viewDidLoad
 		view.backgroundColor = UIColor.whiteColor
-		self.title = "Next actions"
+		self.title = "Next actions @work"
 		@notes = Array.new
 
 		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
@@ -14,8 +14,14 @@ class NextActionsController < UITableViewController
 		self.refreshControl = UIRefreshControl.alloc.init
 		self.refreshControl.addTarget self, action: 'load_actions_from_evernote', forControlEvents: UIControlEventValueChanged
 
-		@nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
-		self.navigationItem.rightBarButtonItem = @nav_add_button
+		nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
+		change_context_button = UIBarButtonItem.alloc.initWithTitle('@work',style: UIBarButtonItemStylePlain, target:self, action:'add_action')
+		self.navigationItem.rightBarButtonItems = [nav_add_button, change_context_button]
+
+		#title_label = UILabel.alloc.initWithFrame(CGRectMake(0, 0, 100, 45))
+		#title_label.text = "@work"
+		#self.navigationItem.titleView = title_label
+
 
 		load_actions_from_evernote
 	end

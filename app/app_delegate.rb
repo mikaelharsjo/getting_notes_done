@@ -11,17 +11,23 @@ class AppDelegate
 		
 		global_styles
 
-		unless @session.isAuthenticated
-			@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
-		else
-			controller = NextActionsController.alloc.initWithNibName nil, bundle: nil
-			next_actions_controller = UINavigationController.alloc.initWithRootViewController controller
-			auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
+		#unless @session.isAuthenticated
+		#	@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
+		#else
+		controller = NextActionsController.alloc.initWithNibName nil, bundle: nil
+		next_actions_controller = UINavigationController.alloc.initWithRootViewController controller
+		auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 
-			tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
-  			tab_controller.viewControllers = [next_actions_controller, auth_controller]
-  			@window.rootViewController = tab_controller
+		tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
+
+		if @session.isAuthenticated
+			tab_controller.viewControllers = [next_actions_controller, auth_controller]
+		else
+			tab_controller.viewControllers = [auth_controller, next_actions_controller]
 		end
+
+		@window.rootViewController = tab_controller
+		#end
 		true
   	end
 
