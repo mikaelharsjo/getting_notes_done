@@ -14,14 +14,8 @@ class NextActionsController < UITableViewController
 		self.refreshControl = UIRefreshControl.alloc.init
 		self.refreshControl.addTarget self, action: 'load_actions_from_evernote', forControlEvents: UIControlEventValueChanged
 
-		nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target:self, action:'add_action')
-		change_context_button = UIBarButtonItem.alloc.initWithTitle('@work',style: UIBarButtonItemStylePlain, target:self, action:'add_action')
-		self.navigationItem.rightBarButtonItems = [nav_add_button, change_context_button]
-
-		#title_label = UILabel.alloc.initWithFrame(CGRectMake(0, 0, 100, 45))
-		#title_label.text = "@work"
-		#self.navigationItem.titleView = title_label
-
+		nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target: self, action: 'add_action')
+		self.navigationItem.rightBarButtonItem = nav_add_button
 
 		load_actions_from_evernote
 	end
@@ -89,7 +83,9 @@ class NextActionsController < UITableViewController
 
  	def initWithNibName(name, bundle: bundle)
 		super
-		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: nil, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
+		current_actions_image = UIImage.imageNamed 'images/glyphicons_193_circle_ok.png'
+		change_context_image = UIImage.imageNamed 'images/glyphicons_370_globe_af.png'
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: current_actions_image, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
 		#self.tabBarItem
 		self
  	end
