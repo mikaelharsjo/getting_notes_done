@@ -5,7 +5,7 @@ class NextActionsController < UITableViewController
 
 	def viewDidLoad
 		view.backgroundColor = UIColor.whiteColor
-		self.title = "Next actions @work"
+		self.title = "Next actions"
 		@notes = Array.new
 
 		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))

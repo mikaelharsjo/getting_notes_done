@@ -14,16 +14,20 @@ class AppDelegate
 		#unless @session.isAuthenticated
 		#	@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 		#else
-		controller = NextActionsController.alloc.initWithNibName nil, bundle: nil
-		next_actions_controller = UINavigationController.alloc.initWithRootViewController controller
+		next_actions_controller = NextActionsController.alloc.initWithNibName nil, bundle: nil
+		next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
+		
+		edit_filter_controller = EditFilterViewController.alloc.initWithNibName nil, bundle: nil
+		edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
+
 		auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 
 		tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
 
 		if @session.isAuthenticated
-			tab_controller.viewControllers = [next_actions_controller, auth_controller]
+			tab_controller.viewControllers = [next_actions_nav_controller, edit_filter_nav_controller]
 		else
-			tab_controller.viewControllers = [auth_controller, next_actions_controller]
+			tab_controller.viewControllers = [auth_controller, next_actions_nav_controller]
 		end
 
 		@window.rootViewController = tab_controller
