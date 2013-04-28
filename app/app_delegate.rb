@@ -8,6 +8,8 @@ class AppDelegate
 		@session = EvernoteSession.sharedSession
     	@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     	@window.makeKeyAndVisible
+
+    	context = Context.new
 		
 		global_styles
 
@@ -31,7 +33,6 @@ class AppDelegate
 		end
 
 		@window.rootViewController = tab_controller
-		#end
 		true
   	end
 
