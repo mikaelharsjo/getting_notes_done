@@ -1,6 +1,17 @@
 class EditFilterViewController < Formotion::FormController
 	def init
-		form = Formotion::Form.new
+		add_tab_bar_item
+		form = build_form
+		super.initWithForm(form)	
+	end
+
+ 	def add_tab_bar_item
+		edit_filter_image = UIImage.imageNamed 'images/glyphicons_320_filter.png'
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('Edit filter', image: edit_filter_image, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
+ 	end
+
+ 	def build_form
+ 		form = Formotion::Form.new
 
 		form.build_section do |section|
 			section.build_row do |row|
@@ -31,20 +42,12 @@ class EditFilterViewController < Formotion::FormController
 			end
 		end
 
-		super.initWithForm(form)		
-	end
-
- 	def initWithNibName(name, bundle: bundle)
-		super
-		edit_filter_image = UIImage.imageNamed 'images/glyphicons_320_filter.png'
-		self.tabBarItem = UITabBarItem.alloc.initWithTitle('Edit filter', image: edit_filter_image, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
-		#self.tabBarItem
-		self
+		form
  	end
 		
 	def viewDidLoad
 		super
-		self.title = 'Edit filter'
+		self.title = 'Custom filter'
 		self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target:self, action:'submit')
 	end
 
