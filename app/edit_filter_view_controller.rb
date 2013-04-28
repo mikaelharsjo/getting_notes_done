@@ -7,7 +7,7 @@ class EditFilterViewController < Formotion::FormController
 
  	def add_tab_bar_item
 		edit_filter_image = UIImage.imageNamed 'images/glyphicons_320_filter.png'
-		self.tabBarItem = UITabBarItem.alloc.initWithTitle('Edit filter', image: edit_filter_image, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('Edit filter', image: edit_filter_image, tag: 1)
  	end
 
  	def build_form
@@ -48,7 +48,7 @@ class EditFilterViewController < Formotion::FormController
 	def viewDidLoad
 		super
 		self.title = 'Custom filter'
-		self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target:self, action:'submit')
+		self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:'submit')
 	end
 
 	def submit
