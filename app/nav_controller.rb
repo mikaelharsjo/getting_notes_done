@@ -66,9 +66,10 @@ class NextActionsController < UITableViewController
 
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
-		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox.png'), forState: UIControlStateNormal
-		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox_checked.png'), forState: UIControlStateSelected
-		check_button.setBackgroundImage UIImage.imageNamed('images/checkbox_checked.png'), forState: UIControlStateHighlighted
+		checked_image = UIImage.imageNamed('images/glyphicons_152_check.png')
+		check_button.setBackgroundImage UIImage.imageNamed('images/glyphicons_153_unchecked.png'), forState: UIControlStateNormal
+		check_button.setBackgroundImage checked_image, forState: UIControlStateSelected
+		check_button.setBackgroundImage checked_image, forState: UIControlStateHighlighted
 		check_button.adjustsImageWhenHighlighted = true
 		check_button.addTarget self, action: 'checkbox_selected:', forControlEvents: UIControlEventTouchUpInside
 		check_button.frame = check_button_rect
