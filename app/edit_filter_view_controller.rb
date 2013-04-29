@@ -1,5 +1,7 @@
 class EditFilterViewController < Formotion::FormController
 	def init
+		@context = Context.new
+		p @context.where
 		add_tab_bar_item
 		form = build_form
 		super.initWithForm(form)	
@@ -53,6 +55,11 @@ class EditFilterViewController < Formotion::FormController
 
 	def submit
 		data = self.form.render
-		puts data
+		@context.where = data[:where]
+		@context.what = data[:what]
+		@context.when = data[:when]
+		p @context.where
+		p @context.what
+		p @context.when
 	end
 end
