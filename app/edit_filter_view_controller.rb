@@ -58,8 +58,10 @@ class EditFilterViewController < Formotion::FormController
 		@context.where = data[:where]
 		@context.what = data[:what]
 		@context.when = data[:when]
-		p @context.where
-		p @context.what
-		p @context.when
+
+		#next_actions_controller = NextActionsController.alloc.init
+		#self.navigationController.pushViewController(next_actions_controller, animated: 'YES')	
+
+		self.navigationController.popToRootViewControllerAnimated true
 	end
 end
