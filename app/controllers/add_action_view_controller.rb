@@ -2,6 +2,7 @@ class AddActionViewController < Formotion::FormController #UIViewController
 	include EvernoteHelpers
 
 	def init
+		@tags = Tags.new
 		form = Formotion::Form.new
 
 		form.build_section do |section|
@@ -17,7 +18,7 @@ class AddActionViewController < Formotion::FormController #UIViewController
 				row.title =  "What?"
 				row.key =  :what
 				row.type =  :picker
-				row.items = ["Active projects", "Inactive projects", "Read/Review"]
+				row.items = @tags.what
 			end			
 		end
 
@@ -26,7 +27,7 @@ class AddActionViewController < Formotion::FormController #UIViewController
 				row.title = 'When?'
 				row.key =  :when
 				row.type =  :picker
-				row.items = ["1-Now", "2-Next", "3-Soon"]
+				row.items = @tags.when
 				row.value = "1-Now"
 			end
 		end
@@ -36,7 +37,7 @@ class AddActionViewController < Formotion::FormController #UIViewController
 				row.title =  "Where?"
 				row.key =  :where
 				row.type =  :picker
-				row.items = ["@Home", "@Work", "@Town"]
+				row.items = @tag.where
 				row.value = "@Home"
 			end
 		end
@@ -46,7 +47,7 @@ class AddActionViewController < Formotion::FormController #UIViewController
 				row.title =  "Who?"
 				row.key =  :who
 				row.type =  :picker
-				row.items = ["Leo", "Johanna", "Noah", "Vera"]
+				row.items = @tags.who
 			end
 		end
 
