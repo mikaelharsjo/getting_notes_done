@@ -37,7 +37,7 @@ class AddActionViewController < Formotion::FormController #UIViewController
 				row.title =  "Where?"
 				row.key =  :where
 				row.type =  :picker
-				row.items = @tag.where
+				row.items = @tags.where
 				row.value = "@Home"
 			end
 		end
