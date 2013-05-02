@@ -6,15 +6,13 @@ class FirstTimeSetup
 	end
 
 	def run
-		#@session = EvernoteSession.sharedSession
-		puts 'run'
 		create_notebook_with_name 'Action pending'
 		create_notebook_with_name 'Completed'
 
 		create_parent_tag_with_name 'Where', create_where_children_tags
 		create_parent_tag_with_name 'When', create_when_children_tags
 		create_parent_tag_with_name 'What', create_what_children_tags
-		puts 'done'
+		create_parent_tag_with_name 'Who', lambda { nil }
 	end
 
 	private
