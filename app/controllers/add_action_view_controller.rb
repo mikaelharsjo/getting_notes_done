@@ -1,9 +1,30 @@
 class AddActionViewController < Formotion::FormController #UIViewController
 	include EvernoteHelpers
+	include BW::KVO
 
 	def init
 		@tags = Tags.new
-		form = Formotion::Form.new
+
+		observe(@tags, 'when') do |old_value, new_value|
+			p old_value
+			p new_value
+			#build_form
+			super.initWithForm(build_form)
+		end
+		@tags.when = ['when', 'ppp']
+
+		super.initWithForm(build_form)
+	end
+		
+	def viewDidLoad
+		super
+
+		self.title = 'Add action'
+		self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target:self, action:'submit')
+	end
+
+	def build_form
+ 		form = Formotion::Form.new
 
 		form.build_section do |section|
 			section.build_row do |row|
@@ -51,14 +72,7 @@ class AddActionViewController < Formotion::FormController #UIViewController
 			end
 		end
 
-		super.initWithForm(form)		
-	end
-		
-	def viewDidLoad
-		super
-
-		self.title = 'Add action'
-		self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target:self, action:'submit')
+		form
 	end
 
 	def submit

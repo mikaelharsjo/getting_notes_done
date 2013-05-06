@@ -2,6 +2,7 @@
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 require 'motion-cocoapods'
+require 'bubble-wrap'
 require 'formotion'
 require 'teacup'
 Motion::Project::App.setup do |app|
