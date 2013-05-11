@@ -10,13 +10,14 @@ class AppDelegate
     	@window.makeKeyAndVisible
 
     	context = Context.new
+    	tags = Tags.new
 		
 		global_styles
 
 		#unless @session.isAuthenticated
 		#	@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 		#else
-		next_actions_controller = NextActionsController.alloc.initWithNibName nil, bundle: nil
+		next_actions_controller = NextActionsController.alloc.init_with_tags tags
 		next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
 		
 		edit_filter_controller = EditFilterViewController.alloc.init

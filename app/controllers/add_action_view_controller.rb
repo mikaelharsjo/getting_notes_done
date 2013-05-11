@@ -1,18 +1,13 @@
-class AddActionViewController < Formotion::FormController #UIViewController
+class AddActionViewController < Formotion::FormController
 	include EvernoteHelpers
-	include BW::KVO
+	attr_reader :tags
+
+	def init_with_tags tags
+		@tags = tags
+		init
+	end
 
 	def init
-		@tags = Tags.new
-
-		observe(@tags, 'when') do |old_value, new_value|
-			p old_value
-			p new_value
-			#build_form
-			super.initWithForm(build_form)
-		end
-		@tags.when = ['when', 'ppp']
-
 		super.initWithForm(build_form)
 	end
 		

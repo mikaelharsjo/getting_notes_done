@@ -1,5 +1,6 @@
 class NextActionsController < UITableViewController
 	stylesheet :main_screen
+	attr_reader :tags
 
 	include EvernoteHelpers
 
@@ -82,12 +83,16 @@ class NextActionsController < UITableViewController
 		text_cell
 	end
 
+	def init_with_tags tags
+		@tags = tags
+		initWithNibName nil, bundle: nil
+	end
+
  	def initWithNibName(name, bundle: bundle)
 		super
 		current_actions_image = UIImage.imageNamed 'images/glyphicons_193_circle_ok.png'
 		change_context_image = UIImage.imageNamed 'images/glyphicons_370_globe_af.png'
-		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: current_actions_image, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
-		#self.tabBarItem
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: current_actions_image, tag: 1)
 		self
  	end
 
@@ -118,7 +123,7 @@ class NextActionsController < UITableViewController
 	end
 
 	def add_action
-		add_action_controller = AddActionViewController.alloc.init
+		add_action_controller = AddActionViewController.alloc.init_with_tags @tags 
 		self.navigationController.pushViewController(add_action_controller, animated:'YES')
 	end
 end
