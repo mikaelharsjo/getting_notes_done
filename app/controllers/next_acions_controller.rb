@@ -5,6 +5,8 @@ class NextActionsController < UITableViewController
 	include EvernoteHelpers
 
 	def viewDidLoad
+		@filter = Filter.new @tags
+		
 		view.backgroundColor = UIColor.whiteColor
 		self.title = "Next actions"
 		@notes = Array.new
