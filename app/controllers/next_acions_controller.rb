@@ -63,7 +63,7 @@ class NextActionsController < UITableViewController
 		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
 
 		label = UILabel.alloc.initWithFrame label_rect
-		label.setFont UIFont.fontWithName('Permanent Marker', size: 19)
+		label.font = UIFont.fontWithName('Inconsolata', size: 19)
 		label.setText @notes[indexPath.row].title
 		label.backgroundColor = UIColor.clearColor
 
