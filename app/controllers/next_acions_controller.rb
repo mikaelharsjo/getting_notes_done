@@ -1,6 +1,7 @@
 class NextActionsController < UITableViewController
 	stylesheet :main_screen
 	attr_reader :tags
+	CHECKBOX_WIDTH = 25
 
 	include EvernoteHelpers
 
@@ -45,6 +46,15 @@ class NextActionsController < UITableViewController
 		end
 	end
 
+	def label_rect
+		total_width = self.view.bounds.size.width
+		CGRectMake(60, 10, total_width - CHECKBOX_WIDTH, 25)
+	end
+
+	def check_button_rect
+		check_button_rect = CGRectMake(10, 6, CHECKBOX_WIDTH, 25)
+	end
+
 	def tableView(tableView, cellForRowAtIndexPath: indexPath)
 		@reuse_id_for_text_cell ||= "CELL_IDENTIFIER"
 		@reuse_id_for_button_cell ||= "CELL_IDENTIFIER_BUTTON"
@@ -57,16 +67,13 @@ class NextActionsController < UITableViewController
 		  UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_id_for_text_cell)
 		end
 
-		checkbox_width = 25
-		total_width = self.view.bounds.size.width
-		label_rect = CGRectMake(60, 10, total_width - checkbox_width, 25)
-		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
+		text_cell.contentView.addSubview create_check_button
+		text_cell.contentView.addSubview create_label indexPath
 
-		label = UILabel.alloc.initWithFrame label_rect
-		label.font = UIFont.fontWithName('Inconsolata', size: 19)
-		label.setText @notes[indexPath.row].title
-		label.backgroundColor = UIColor.clearColor
+		text_cell
+	end
 
+	def create_check_button
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
 		checked_image = UIImage.imageNamed('images/glyphicons_152_check.png')
@@ -76,13 +83,15 @@ class NextActionsController < UITableViewController
 		check_button.adjustsImageWhenHighlighted = true
 		check_button.addTarget self, action: 'checkbox_selected:', forControlEvents: UIControlEventTouchUpInside
 		check_button.frame = check_button_rect
+		check_button
+	end
 
-		text_cell.contentView.addSubview check_button
-		text_cell.contentView.addSubview label
-
-		# put your data in the cell
-
-		text_cell
+	def create_label indexPath
+		label = UILabel.alloc.initWithFrame label_rect
+		label.font = UIFont.fontWithName('Inconsolata', size: 19)
+		label.text = "#{indexPath.row + 1}. #{@notes[indexPath.row].title}"
+		label.backgroundColor = UIColor.clearColor
+		label
 	end
 
 	def init_with_tags tags
