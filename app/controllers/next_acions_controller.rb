@@ -6,7 +6,7 @@ class NextActionsController < UITableViewController
 
 	def viewDidLoad
 		@filter = Filter.new @tags
-		
+
 		view.backgroundColor = UIColor.whiteColor
 		self.title = "Next actions"
 		@notes = Array.new
@@ -63,7 +63,7 @@ class NextActionsController < UITableViewController
 		check_button_rect = CGRectMake(10, 6, checkbox_width, 25)
 
 		label = UILabel.alloc.initWithFrame label_rect
-		label.setFont UIFont.fontWithName('Inconsolata', size: 19)
+		label.setFont UIFont.fontWithName('Permanent Marker', size: 19)
 		label.setText @notes[indexPath.row].title
 		label.backgroundColor = UIColor.clearColor
 
@@ -125,7 +125,7 @@ class NextActionsController < UITableViewController
 	end
 
 	def add_action
-		add_action_controller = AddActionViewController.alloc.init_with_tags @tags 
+		add_action_controller = AddActionViewController.alloc.init   #_with_tags @tags 
 		self.navigationController.pushViewController(add_action_controller, animated:'YES')
 	end
 end

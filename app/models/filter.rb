@@ -1,11 +1,6 @@
-class Filter
-	attr_reader :tags
+class Filter # not needed?
 	
 	def initialize tags
-		@tags = tags
-	end
-
-	def tagGuids
-		
+		#@tags = tags
 	end
 end
