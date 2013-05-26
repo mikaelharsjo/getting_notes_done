@@ -3,13 +3,8 @@ class NullTag
 end
 
 class Tags
-	include EvernoteHelpers
 
 	attr_accessor :where_tags, :when_tags, :what_tags, :who_tags
-
-	def initialize
-		#note_store.listTagsWithSuccess tags_loaded, failure: output_error
-	end
 
 	def self.fetch &block
 		session = EvernoteSession.sharedSession
@@ -20,37 +15,19 @@ class Tags
 			what_root_tag = tags.select {|t| t.name == 'What'}[0] || NullTag.new
 			who_root_tag = tags.select {|t| t.name == 'Who'}[0] || NullTag.new
 			
-			@where_tags = tags_with_parent tags, where_root_tag
-			@when_tags = tags_with_parent tags, when_root_tag
-			@what_tags = tags_with_parent tags, what_root_tag
-			@who_tags = tags_with_parent tags, who_root_tag
+			tags_to_return = Tags.new
+			
+			tags_to_return.where_tags = tags_with_parent tags, where_root_tag
+			tags_to_return.when_tags = tags_with_parent tags, when_root_tag
+			tags_to_return.what_tags = tags_with_parent tags, what_root_tag
+			tags_to_return.who_tags = tags_with_parent tags, who_root_tag
 
-			block.call(@where_tags)
+			block.call(tags_to_return)
+
 		end, failure: output_error)
 	end
 
 	def self.output_error
-	end
-
-	def self.tags_loaded
-		lambda do |tags|
-			where_root_tag = tags.select {|t| t.name == 'Where'}[0] || NullTag.new
-			when_root_tag = tags.select {|t| t.name == 'When'}[0] || NullTag.new
-			what_root_tag = tags.select {|t| t.name == 'What'}[0] || NullTag.new
-			who_root_tag = tags.select {|t| t.name == 'Who'}[0] || NullTag.new
-			
-			@where_tags = tags_with_parent tags, where_root_tag
-			@when_tags = tags_with_parent tags, when_root_tag
-			@what_tags = tags_with_parent tags, what_root_tag
-			@who_tags = tags_with_parent tags, who_root_tag
-
-			block.call(@where_tags)
-
-			#@where =  
-			#@when = tags_to_names when_tags
-			#@what = tags_to_names what_tags
-			#@who = tags_to_names who_tags
-		end
 	end
 
 	def where
@@ -89,7 +66,7 @@ class Tags
 		tags.select {|t| t.parentGuid == parent.guid }
 	end
 
-	def self.tags_to_names tags
+	def tags_to_names tags
 		tags.map {|tag| tag.name}
 	end	
 

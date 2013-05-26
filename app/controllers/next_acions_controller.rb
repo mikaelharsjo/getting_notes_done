@@ -125,7 +125,9 @@ class NextActionsController < UITableViewController
 	end
 
 	def add_action
-		add_action_controller = AddActionViewController.alloc.init   #_with_tags @tags 
-		self.navigationController.pushViewController(add_action_controller, animated:'YES')
+		Tags.fetch do |tags|
+			add_action_controller = AddActionViewController.alloc.init_with_tags tags 
+			self.navigationController.pushViewController(add_action_controller, animated:'YES')
+		end
 	end
 end

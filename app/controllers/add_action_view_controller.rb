@@ -7,14 +7,8 @@ class AddActionViewController < Formotion::FormController
 		init
 	end
 
-	def init		
-		Tags.fetch do |tags|
-			p 'tags in AddActionViewController'
-			p tags
-			super.initWithForm(build_form)
-		end
-		super.initWithForm(build_form)
-		#end	
+	def init
+		super.initWithForm(build_form)	
 	end
 		
 	def viewDidLoad
@@ -25,7 +19,6 @@ class AddActionViewController < Formotion::FormController
 	end
 
 	def build_form
-		p 'build form'
  		form = Formotion::Form.new
 
 		form.build_section do |section|
@@ -41,7 +34,7 @@ class AddActionViewController < Formotion::FormController
 				row.title =  "What?"
 				row.key =  :what
 				row.type =  :picker
-				#row.items = @tags.what
+				row.items = @tags.what
 			end			
 		end
 
@@ -50,7 +43,7 @@ class AddActionViewController < Formotion::FormController
 				row.title = 'When?'
 				row.key =  :when
 				row.type =  :picker
-				#row.items = @tags.when
+				row.items = @tags.when
 				row.value = "1-Now"
 			end
 		end
@@ -60,7 +53,7 @@ class AddActionViewController < Formotion::FormController
 				row.title =  "Where?"
 				row.key =  :where
 				row.type =  :picker
-				#row.items = @tags.where
+				row.items = @tags.where
 				row.value = "@Home"
 			end
 		end
@@ -70,7 +63,7 @@ class AddActionViewController < Formotion::FormController
 				row.title =  "Who?"
 				row.key =  :who
 				row.type =  :picker
-				#row.items = @tags.who
+				row.items = @tags.who
 			end
 		end
 

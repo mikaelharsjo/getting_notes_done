@@ -29,6 +29,9 @@ class AuthenticationViewController < UIViewController
 					next_actions_controller = NextActionsController.alloc.init
 					p self
 					p self.navigationController
+					p self.tabBarController
+					p self.tabBarController.selectedViewController
+					p self.tabBarController.selectedViewController.navigationController
 					self.navigationController.pushViewController(next_actions_controller, animated: 'YES')	
 				end	
 			end)	
