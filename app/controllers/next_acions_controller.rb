@@ -5,6 +5,19 @@ class NextActionsController < UITableViewController
 
 	include EvernoteHelpers
 
+	def init_with_tags tags
+		@tags = tags
+		initWithNibName nil, bundle: nil
+	end
+
+ 	def initWithNibName(name, bundle: bundle)
+		super
+		current_actions_image = UIImage.imageNamed 'images/glyphicons_193_circle_ok.png'
+		change_context_image = UIImage.imageNamed 'images/glyphicons_370_globe_af.png'
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: current_actions_image, tag: 1)
+		self
+ 	end
+
 	def viewDidLoad
 		@filter = Filter.new @tags
 
@@ -94,19 +107,6 @@ class NextActionsController < UITableViewController
 		label
 	end
 
-	def init_with_tags tags
-		@tags = tags
-		initWithNibName nil, bundle: nil
-	end
-
- 	def initWithNibName(name, bundle: bundle)
-		super
-		current_actions_image = UIImage.imageNamed 'images/glyphicons_193_circle_ok.png'
-		change_context_image = UIImage.imageNamed 'images/glyphicons_370_globe_af.png'
-		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: current_actions_image, tag: 1)
-		self
- 	end
-
 	def checkbox_selected sender
 		p "clicked #{sender}"  #{button}"
 		sender.setSelected true
@@ -133,10 +133,8 @@ class NextActionsController < UITableViewController
 		end
 	end
 
-	def add_action
-		Tags.fetch do |tags|
-			add_action_controller = AddActionViewController.alloc.init_with_tags tags 
-			self.navigationController.pushViewController(add_action_controller, animated:'YES')
-		end
+	def add_action				
+		add_action_controller = AddActionViewController.alloc.init_with_tags @tags 
+		self.navigationController.pushViewController(add_action_controller, animated:'YES')
 	end
 end
