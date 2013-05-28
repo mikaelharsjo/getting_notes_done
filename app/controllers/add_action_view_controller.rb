@@ -1,11 +1,6 @@
 class AddActionViewController < Formotion::FormController
 	include EvernoteHelpers
-	attr_reader :tags
-
-	def init_with_tags tags
-		@tags = tags
-		init
-	end
+	include InitWithTags
 
 	def init
 		super.initWithForm(build_form)	
@@ -44,7 +39,7 @@ class AddActionViewController < Formotion::FormController
 				row.key =  :when
 				row.type =  :picker
 				row.items = @tags.when
-				row.value = "1-Now"
+				row.value = @tags.when.first
 			end
 		end
 
@@ -54,7 +49,8 @@ class AddActionViewController < Formotion::FormController
 				row.key =  :where
 				row.type =  :picker
 				row.items = @tags.where
-				row.value = "@Home"
+				# set from context?
+				row.value = @tags.where.first
 			end
 		end
 
@@ -72,14 +68,11 @@ class AddActionViewController < Formotion::FormController
 
 	def submit
 		data = self.form.render
-		puts data
-		puts data[:title]
 
 		note = EDAMNote.alloc.init
-
 		note.title = data[:title]
 		note.content = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note></en-note>'
-		#note.where = data[:where]
+
 		if data[:where] or data[:when] or data[:who] or data[:what]
 			note.tagNames = Array.new
 			note.tagNames << data[:where] if data[:where] 

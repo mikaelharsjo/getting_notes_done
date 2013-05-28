@@ -19,7 +19,7 @@ class AppDelegate
 			next_actions_controller = NextActionsController.alloc.init_with_tags tags
 			next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
 			
-			edit_filter_controller = EditFilterViewController.alloc.init
+			edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags
 			edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
 
 			auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)

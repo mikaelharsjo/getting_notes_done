@@ -1,7 +1,8 @@
 class EditFilterViewController < Formotion::FormController
+	include InitWithTags
+
 	def init
 		@context = Context.new
-		p @context.where
 		add_tab_bar_item
 		form = build_form
 		super.initWithForm(form)	
@@ -20,7 +21,7 @@ class EditFilterViewController < Formotion::FormController
 				row.title =  "What?"
 				row.key =  :what
 				row.type =  :picker
-				row.items = ["Active projects", "Inactive projects", "Read/Review"]
+				row.items = @tags.what
 			end			
 		end
 
@@ -29,8 +30,9 @@ class EditFilterViewController < Formotion::FormController
 				row.title = 'When?'
 				row.key =  :when
 				row.type =  :picker
-				row.items = ["1-Now", "2-Next", "3-Soon"]
-				row.value = "1-Now"
+				row.items = @tags.when
+				# set from context.when
+				#row.value = @tags.when.first
 			end
 		end
 
@@ -39,8 +41,8 @@ class EditFilterViewController < Formotion::FormController
 				row.title =  "Where?"
 				row.key =  :where
 				row.type =  :picker
-				row.items = ["@Home", "@Work", "@Town"]
-				row.value = "@Home"
+				row.items = @tags.where
+				#row.value = @tags.where.first
 			end
 		end
 
