@@ -26,13 +26,7 @@ class AuthenticationViewController < UIViewController
 					puts 'Were authenticated!'				
 					userStore = EvernoteUserStore.userStore
 					userStore.getUserWithSuccess lambda {|user| puts user.username}, failure: lambda {|error| puts "#{error.domain} #{error.code}"}	
-					next_actions_controller = NextActionsController.alloc.init
-					p self
-					p self.navigationController
-					p self.tabBarController
-					p self.tabBarController.selectedViewController
-					p self.tabBarController.selectedViewController.navigationController
-					self.navigationController.pushViewController(next_actions_controller, animated: 'YES')	
+					self.tabBarController.selectedIndex = 1
 				end	
 			end)	
 	end
