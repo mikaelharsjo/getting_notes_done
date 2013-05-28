@@ -56,14 +56,12 @@ class EditFilterViewController < Formotion::FormController
 	end
 
 	def submit
+		p 'submit'
 		data = self.form.render
 		@context.where = data[:where]
 		@context.what = data[:what]
 		@context.when = data[:when]
 
-		#next_actions_controller = NextActionsController.alloc.init
-		#self.navigationController.pushViewController(next_actions_controller, animated: 'YES')	
-
-		self.navigationController.popToRootViewControllerAnimated true
+		self.tabBarController.selectedIndex = 0
 	end
 end
