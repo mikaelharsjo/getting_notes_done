@@ -13,6 +13,12 @@ class EditFilterViewController < Formotion::FormController
 		self.tabBarItem = UITabBarItem.alloc.initWithTitle('Edit filter', image: edit_filter_image, tag: 1)
  	end
 
+	def viewDidLoad
+		super
+		self.title = 'Custom filter'
+		self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:'submit')
+	end
+
  	def build_form
  		form = Formotion::Form.new
 
@@ -48,19 +54,15 @@ class EditFilterViewController < Formotion::FormController
 
 		form
  	end
-		
-	def viewDidLoad
-		super
-		self.title = 'Custom filter'
-		self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:'submit')
-	end
 
 	def submit
 		p 'submit'
 		data = self.form.render
 		@context.where = data[:where]
+		p @context.where
 		@context.what = data[:what]
 		@context.when = data[:when]
+		@context.save
 
 		self.tabBarController.selectedIndex = 0
 	end
