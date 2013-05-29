@@ -19,7 +19,8 @@ class NextActionsController < UITableViewController
  	end
 
 	def viewDidLoad
-		@filter = Filter.new @tags
+		p 'viewDidLoad'
+		
 
 		view.backgroundColor = UIColor.whiteColor
 		self.title = "Next actions"
@@ -32,8 +33,12 @@ class NextActionsController < UITableViewController
 		self.refreshControl.addTarget self, action: 'load_actions_from_evernote', forControlEvents: UIControlEventValueChanged
 
 		nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target: self, action: 'add_action')
-		self.navigationItem.rightBarButtonItem = nav_add_button
+		self.navigationItem.rightBarButtonItem = nav_add_button		
+	end
 
+	def viewDidAppear(animated)
+		p 'viewDidAppear'
+		@filter = Filter.new @tags
 		load_actions_from_evernote
 	end
 
