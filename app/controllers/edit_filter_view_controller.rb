@@ -28,6 +28,7 @@ class EditFilterViewController < Formotion::FormController
 				row.key =  :what
 				row.type =  :picker
 				row.items = @tags.what
+				row.value = @context.what
 			end			
 		end
 
@@ -37,8 +38,7 @@ class EditFilterViewController < Formotion::FormController
 				row.key =  :when
 				row.type =  :picker
 				row.items = @tags.when
-				# set from context.when
-				#row.value = @tags.when.first
+				row.value = @context.when
 			end
 		end
 
@@ -48,7 +48,7 @@ class EditFilterViewController < Formotion::FormController
 				row.key =  :where
 				row.type =  :picker
 				row.items = @tags.where
-				#row.value = @tags.where.first
+				row.value = @context.where
 			end
 		end
 
