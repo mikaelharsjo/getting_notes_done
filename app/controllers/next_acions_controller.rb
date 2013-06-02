@@ -61,11 +61,11 @@ class NextActionsController < UITableViewController
 
 	def label_rect
 		total_width = self.view.bounds.size.width
-		CGRectMake(60, 10, total_width - CHECKBOX_WIDTH, 25)
+		CGRectMake(60, 10, total_width - CHECKBOX_WIDTH, CHECKBOX_WIDTH)
 	end
 
 	def check_button_rect
-		check_button_rect = CGRectMake(10, 6, CHECKBOX_WIDTH, 25)
+		check_button_rect = CGRectMake(10, 6, CHECKBOX_WIDTH, CHECKBOX_WIDTH)
 	end
 
 	def tableView(tableView, cellForRowAtIndexPath: indexPath)
@@ -116,21 +116,6 @@ class NextActionsController < UITableViewController
 
 	def tableView(tableView, numberOfRowsInSection: section)
 		@actions.count
-	end
-
-	def setupEvernote
-		@session = EvernoteSession.sharedSession
-
-		#first_time_setup = FirstTimeSetup.new @note_store
-		#first_time_setup.run()
-
-		#@note_store.listTagsWithSuccess output_tags, failure: output_error
-	end
-
-	def output_tags
-		lambda do |tags|
-			tags.each {|tag| puts "#{tag.name} #{tag.parentGuid}"}
-		end
 	end
 
 	def add_action				
