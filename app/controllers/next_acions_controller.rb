@@ -1,5 +1,4 @@
 class NextActionsController < UITableViewController
-	stylesheet :main_screen
 	attr_reader :tags
 	CHECKBOX_WIDTH = 25
 
@@ -19,12 +18,9 @@ class NextActionsController < UITableViewController
  	end
 
 	def viewDidLoad
-		p 'viewDidLoad'
-		
-
 		view.backgroundColor = UIColor.whiteColor
 		self.title = "Next actions"
-		@notes = Array.new
+		@actions = Array.new
 
 		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
 		self.tableView.backgroundView = image_view
@@ -37,12 +33,11 @@ class NextActionsController < UITableViewController
 	end
 
 	def viewDidAppear(animated)
-		p 'viewDidAppear'
 		@filter = Filter.new @tags
-		load_actions_from_evernote
+		fetch_actions_from_evernote
 	end
 
-	def load_actions_from_evernote
+	def fetch_actions_from_evernote
 		self.refreshControl.beginRefreshing
 		@session = EvernoteSession.sharedSession
 		@note_store = EvernoteNoteStore.noteStore
@@ -53,10 +48,10 @@ class NextActionsController < UITableViewController
 	end
 
 	def notes_loaded
+		@actions.clear
 		lambda do |meta_data|
-			meta_data.notes.each do |note|
-				new_note = Note.new(note.title)
-				@notes << new_note
+			meta_data.notes.each do |note| 
+				@actions << Note.new(note.title)
 			end
 
 			self.refreshControl.endRefreshing
@@ -107,7 +102,7 @@ class NextActionsController < UITableViewController
 	def create_label indexPath
 		label = UILabel.alloc.initWithFrame label_rect
 		label.font = UIFont.fontWithName('Inconsolata', size: 19)
-		label.text = "#{indexPath.row + 1}. #{@notes[indexPath.row].title}"
+		label.text = "#{indexPath.row + 1}. #{@actions[indexPath.row].title}"
 		label.backgroundColor = UIColor.clearColor
 		label
 	end
@@ -120,7 +115,7 @@ class NextActionsController < UITableViewController
 	end
 
 	def tableView(tableView, numberOfRowsInSection: section)
-		@notes.count
+		@actions.count
 	end
 
 	def setupEvernote
