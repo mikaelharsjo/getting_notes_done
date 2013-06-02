@@ -9,7 +9,6 @@ class AppDelegate
     	@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     	@window.makeKeyAndVisible
 
-    	context = Context.new
     	global_styles
 
     	Tags.fetch do |tags|

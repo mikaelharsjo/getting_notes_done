@@ -3,7 +3,7 @@ class NullTag
 end
 
 class Tags
-
+	#private??
 	attr_accessor :where_tags, :when_tags, :what_tags, :who_tags
 
 	def self.fetch &block
@@ -28,6 +28,10 @@ class Tags
 	end
 
 	def self.output_error
+	end
+
+	def self.tags_with_parent tags, parent
+		tags.select {|t| t.parentGuid == parent.guid }
 	end
 
 	def where
@@ -62,15 +66,28 @@ class Tags
 		tags_to_guids @who_tags
 	end
 
-	def self.tags_with_parent tags, parent
-		tags.select {|t| t.parentGuid == parent.guid }
-	end
-
 	def tags_to_names tags
 		tags.map {|tag| tag.name}
 	end	
 
 	def tags_to_guids tags
 		tags.map {|tag| tag.guid}
+	end
+
+	def where_guids_with_name name
+		guids_with_name @where_tags, name
+	end
+
+	def what_guids_with_name name
+		guids_with_name @what_tags, name
+	end
+
+	def when_guids_with_name name
+		guids_with_name @when_tags, name
+	end
+
+	def guids_with_name tags, name
+		tag = tags.select {|tag| tag.name == name}[0] || NullTag.new
+		tag.guid
 	end
 end
