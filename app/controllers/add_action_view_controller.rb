@@ -82,6 +82,12 @@ class AddActionViewController < Formotion::FormController
 		end
 
 		note_store = EvernoteNoteStore.noteStore
-		note_store.createNote note, success: lambda { |note| puts note }, failure: output_error
+		note_store.createNote note, success: redirect_after_save, failure: output_error
+	end
+
+	def redirect_after_save
+		lambda do |note| 
+			self.navigationController.popToRootViewControllerAnimated true
+		end
 	end
 end
