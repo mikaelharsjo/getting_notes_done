@@ -51,7 +51,7 @@ class NextActionsController < UITableViewController
 		@actions.clear
 		lambda do |meta_data|
 			meta_data.notes.each do |note| 
-				@actions << Note.new(note.title)
+				@actions << Note.new(note.title, note.guid)
 			end
 
 			self.refreshControl.endRefreshing
@@ -80,13 +80,13 @@ class NextActionsController < UITableViewController
 		  UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:@reuse_id_for_text_cell)
 		end
 
-		text_cell.contentView.addSubview create_check_button
+		text_cell.contentView.addSubview create_check_button indexPath
 		text_cell.contentView.addSubview create_label indexPath
 
 		text_cell
 	end
 
-	def create_check_button
+	def create_check_button indexPath
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
 		checked_image = UIImage.imageNamed('images/black_checkbox_checked.png')
@@ -96,6 +96,7 @@ class NextActionsController < UITableViewController
 		check_button.adjustsImageWhenHighlighted = true
 		check_button.addTarget self, action: 'checkbox_selected:', forControlEvents: UIControlEventTouchUpInside
 		check_button.frame = check_button_rect
+		check_button.tag = indexPath.row #@actions[indexPath.row].guid
 		check_button
 	end
 
@@ -108,7 +109,7 @@ class NextActionsController < UITableViewController
 	end
 
 	def checkbox_selected sender
-		p "clicked #{sender}"  #{button}"
+		p "clicked #{sender.tag}"  #{button}"
 		sender.setSelected true
 		#checkboxSelected = !checkboxSelected;
 		#checkbox setSelected:checkboxSelected];
