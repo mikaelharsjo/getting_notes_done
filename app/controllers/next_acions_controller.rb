@@ -5,8 +5,6 @@ class NextActionsController < UITableViewController
 	include EvernoteHelpers
 
 	def init_with_tags tags
-		@session = EvernoteSession.sharedSession
-		@note_store = EvernoteNoteStore.noteStore
 		@action_completer = ActionCompleter.new
 		@tags = tags
 		initWithNibName nil, bundle: nil
@@ -42,10 +40,8 @@ class NextActionsController < UITableViewController
 	def fetch_actions_from_evernote
 		filter = Filter.new @tags
 		self.refreshControl.beginRefreshing
-
-		filter = EDAMNoteFilter.alloc.initWithOrder 0, ascending:false, words:nil, notebookGuid:nil, tagGuids: filter.tag_guids, timeZone:nil, inactive:false, emphasized:nil
-		spec = EDAMNotesMetadataResultSpec.alloc.initWithIncludeTitle true, includeContentLength:false, includeCreated:false, includeUpdated:false, includeUpdateSequenceNum:false, includeNotebookGuid:false, includeTagGuids:true, includeAttributes:false, includeLargestResourceMime:false, includeLargestResourceSize:false
-		@note_store.findNotesMetadataWithFilter filter, offset:0, maxNotes:10, resultSpec:spec, success: notes_loaded, failure: output_error
+		fetcher = ActionFetcher.new filter
+		fetcher.fetch notes_loaded
 	end
 
 	def notes_loaded
