@@ -3,7 +3,6 @@ class NullTag
 end
 
 class Tags
-	#private??
 	attr_accessor :where_tags, :when_tags, :what_tags, :who_tags
 
 	def self.fetch &block
@@ -24,10 +23,7 @@ class Tags
 
 			block.call(tags_to_return)
 
-		end, failure: output_error)
-	end
-
-	def self.output_error
+		end, failure: nil)
 	end
 
 	def self.tags_with_parent tags, parent
