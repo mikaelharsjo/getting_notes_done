@@ -4,9 +4,10 @@ class NextActionsController < UITableViewController
 
 	include EvernoteHelpers
 
-	def init_with_tags tags
+	def init_with_tags tags, completed_notebook_guid
 		@action_completer = ActionCompleter.new
 		@tags = tags
+		@completed_notebook_guid = completed_notebook_guid
 		initWithNibName nil, bundle: nil
 	end
 
@@ -38,10 +39,11 @@ class NextActionsController < UITableViewController
 	end
 
 	def fetch_actions_from_evernote
-		filter = Filter.new @tags
+		filter = Filter.new @tags, @completed_notebook_guid
 		self.refreshControl.beginRefreshing
-		fetcher = ActionFetcher.new filter
-		fetcher.fetch notes_loaded
+
+		action_fetcher = ActionFetcher.new filter
+		action_fetcher.fetch notes_loaded
 	end
 
 	def notes_loaded

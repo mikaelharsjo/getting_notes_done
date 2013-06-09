@@ -11,27 +11,30 @@ class AppDelegate
 
     	global_styles
 
-    	Tags.fetch do |tags|
-			#unless @session.isAuthenticated
-			#	@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
-			#else
-			next_actions_controller = NextActionsController.alloc.init_with_tags tags
-			next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
-			
-			edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags
-			edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
+    	Notebook.fetch 'action pending' do |notebook|
+    		@completed_notebook_guid = notebook.guid
+	    	Tags.fetch do |tags|
+				#unless @session.isAuthenticated
+				#	@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
+				#else
+				next_actions_controller = NextActionsController.alloc.init_with_tags tags, @completed_notebook_guid
+				next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
+				
+				edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags
+				edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
 
-			auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
+				auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 
-			tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
+				tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
 
-			if @session.isAuthenticated
-				tab_controller.viewControllers = [next_actions_nav_controller, edit_filter_nav_controller]
-			else
-				tab_controller.viewControllers = [auth_controller, next_actions_nav_controller]
+				if @session.isAuthenticated
+					tab_controller.viewControllers = [next_actions_nav_controller, edit_filter_nav_controller]
+				else
+					tab_controller.viewControllers = [auth_controller, next_actions_nav_controller]
+				end
+
+				@window.rootViewController = tab_controller
 			end
-
-			@window.rootViewController = tab_controller
 		end
 		
 		true

@@ -3,7 +3,7 @@ class ActionCompleter
 
 	def initialize
 		session = EvernoteSession.sharedSession
-		@note_store = EvernoteNoteStore.noteStore		
+		@note_store = EvernoteNoteStore.noteStore
 	end
 
 	def complete_with_guid note_guid
@@ -13,19 +13,13 @@ class ActionCompleter
 	def fetched_complete_note
 		lambda do |complete_note|
 			@complete_note = complete_note
-			@note_store.listNotebooksWithSuccess fetched_all_notebooks, failure: output_error
+			Notebook.fetch 'completed' { |notebook| move_to notebook }
 		end
 	end
 
-	def fetched_all_notebooks
-		lambda do |notebooks|
-			notebooks.each{|notebook| p(notebook.name)}
-			completed_notebook = notebooks.detect{|notebook| notebook.name.downcase == 'completed'}
-			if completed_notebook
-				@complete_note.notebookGuid = completed_notebook.guid
-				@note_store.updateNote @complete_note, success: note_updated, failure: output_error
-			end
-		end	
+	def move_to notebook	
+		@complete_note.notebookGuid = notebook.guid
+		@note_store.updateNote @complete_note, success: note_updated, failure: output_error			
 	end
 
 	def note_updated
