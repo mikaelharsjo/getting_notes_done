@@ -39,7 +39,7 @@ class NextActionsController < UITableViewController
 	end
 
 	def fetch_actions_from_evernote
-		filter = Filter.new @tags, @completed_notebook_guid
+		filter = Filter.new @tags, @notebook_guid
 		self.refreshControl.beginRefreshing
 
 		action_fetcher = ActionFetcher.new filter

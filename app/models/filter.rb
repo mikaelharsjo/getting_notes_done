@@ -1,9 +1,8 @@
-class Filter # not needed?
-	attr_reader :completed_notebook_guid
-	
-	def initialize tags, completed_notebook_guid
+class Filter
+	attr_reader :notebook_guid
+	def initialize tags, notebook_guid
 		@tags = tags
-		@completed_notebook_guid = completed_notebook_guid
+		@notebook_guid = notebook_guid
 		@context = Context.new
 	end
 
