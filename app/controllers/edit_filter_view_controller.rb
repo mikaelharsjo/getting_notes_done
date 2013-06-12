@@ -32,15 +32,15 @@ class EditFilterViewController < Formotion::FormController
 			end			
 		end
 
-		form.build_section do |section|
-			section.build_row do |row|
-				row.title = 'When?'
-				row.key =  :when
-				row.type =  :picker
-				row.items = @tags.when
-				row.value = @context.when
-			end
-		end
+		# form.build_section do |section|
+		# 	section.build_row do |row|
+		# 		row.title = 'When?'
+		# 		row.key =  :when
+		# 		row.type =  :picker
+		# 		row.items = @tags.when
+		# 		row.value = @context.when
+		# 	end
+		# end
 
 		form.build_section do |section|		
 			section.build_row do |row|
@@ -61,7 +61,7 @@ class EditFilterViewController < Formotion::FormController
 		@context.where = data[:where]
 		p @context.where
 		@context.what = data[:what]
-		@context.when = data[:when]
+		#@context.when = data[:when]
 		@context.save
 
 		self.tabBarController.selectedIndex = 0

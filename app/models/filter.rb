@@ -10,7 +10,7 @@ class Filter
 		array = Array.new
 		array << @tags.where_guids_with_name(@context.where)
 		array << @tags.what_guids_with_name(@context.what)
-		array << @tags.when_guids_with_name(@context.when)
+		#array << @tags.when_guids_with_name(@context.when)
 
 		array.compact
 	end
