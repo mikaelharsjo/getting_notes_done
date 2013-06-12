@@ -49,10 +49,16 @@ class NextActionsController < UITableViewController
 	def notes_loaded
 		@actions.clear
 		lambda do |meta_data|
-			meta_data.notes.each do |note| 
-				@actions << Note.new(note.title, note.guid)
+			meta_data.notes.each do |note|
+				when_tags = []
+				note.tagGuids.each do |tag_guid| 
+					when_tags = @tags.when_tags.select {|when_tag| when_tag.guid == tag_guid}
+				end
+				@actions << Note.new(note.title, note.guid, when_tags.first)				
 			end
 
+			@actions.sort! {|a, b| a.when.name <=> b.when.name}
+			
 			self.refreshControl.endRefreshing
 			self.tableView.reloadData
 		end

@@ -1,11 +1,9 @@
 class Note
-	attr_reader :title
-	attr_reader :guid
-	attr_reader :tags
+	attr_reader :title, :guid, :when
 
-	def initialize title, guid
+	def initialize title, guid, when_tag
 		@title = title
 		@guid = guid
-		@tags = Array.new
+		@when = when_tag
 	end
 end
