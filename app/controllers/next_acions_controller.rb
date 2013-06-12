@@ -1,13 +1,13 @@
 class NextActionsController < UITableViewController
-	attr_reader :tags
 	CHECKBOX_WIDTH = 25
 
 	include EvernoteHelpers
+	include InitWithTags
 
-	def init_with_tags tags, completed_notebook_guid
+	def init_with_tags_and_notebook_guid tags, notebook_guid
+		@notebook_guid = notebook_guid
 		@action_completer = ActionCompleter.new
-		@tags = tags
-		@completed_notebook_guid = completed_notebook_guid
+		init_with_tags tags
 		initWithNibName nil, bundle: nil
 	end
 
@@ -118,7 +118,7 @@ class NextActionsController < UITableViewController
 	end
 
 	def add_action				
-		add_action_controller = AddActionViewController.alloc.init_with_tags @tags 
+		add_action_controller = AddActionViewController.alloc.init_with_tags_and_notebook_guid @tags, @notebook_guid
 		self.navigationController.pushViewController(add_action_controller, animated:'YES')
 	end
 end

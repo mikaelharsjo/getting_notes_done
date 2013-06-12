@@ -12,12 +12,9 @@ class AppDelegate
     	global_styles
 
     	Notebook.fetch 'action pending' do |notebook|
-    		@completed_notebook_guid = notebook.guid
+    		@notebook_guid = notebook.guid
 	    	Tags.fetch do |tags|
-				#unless @session.isAuthenticated
-				#	@window.rootViewController = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
-				#else
-				next_actions_controller = NextActionsController.alloc.init_with_tags tags, @completed_notebook_guid
+				next_actions_controller = NextActionsController.alloc.init_with_tags_and_notebook_guid tags, @notebook_guid
 				next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
 				
 				edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags

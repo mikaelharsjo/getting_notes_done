@@ -2,6 +2,11 @@ class AddActionViewController < Formotion::FormController
 	include EvernoteHelpers
 	include InitWithTags
 
+	def init_with_tags_and_notebook_guid tags, notebook_guid
+		@notebook_guid = notebook_guid
+		init_with_tags tags
+	end
+		
 	def init
 		super.initWithForm(build_form)	
 	end
@@ -72,6 +77,7 @@ class AddActionViewController < Formotion::FormController
 		note = EDAMNote.alloc.init
 		note.title = data[:title]
 		note.content = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note></en-note>'
+		note.notebookGuid = @notebook_guid
 
 		if data[:where] or data[:when] or data[:who] or data[:what]
 			note.tagNames = Array.new
