@@ -56,7 +56,6 @@ class EditFilterViewController < Formotion::FormController
  	end
 
 	def submit
-		p 'submit'
 		data = self.form.render
 		@context.where = data[:where]
 		p @context.where
