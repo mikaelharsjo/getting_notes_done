@@ -4,6 +4,6 @@ class Note
 	def initialize title, guid, when_tag
 		@title = title
 		@guid = guid
-		@when = when_tag
+		@when = when_tag.nil? ? NullTag.new : when_tag
 	end
 end
