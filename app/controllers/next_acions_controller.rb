@@ -34,8 +34,10 @@ class NextActionsController < UITableViewController
 		self.navigationItem.rightBarButtonItem = nav_add_button		
 	end
 
-	def viewDidAppear(animated)		
-		fetch_actions_from_evernote
+	def viewDidAppear(animated)
+		if @tags	
+			fetch_actions_from_evernote
+		end
 	end
 
 	def fetch_actions_from_evernote

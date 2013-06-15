@@ -12,7 +12,6 @@ class Notebook
 	end
 
 	def self.fetched_all_notebooks
-		p @name
 		lambda do |notebooks|
 			completed_notebook = notebooks.detect{|notebook| notebook.name.downcase == @name}
 			p completed_notebook
