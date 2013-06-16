@@ -15,7 +15,7 @@ class NextActionsController < UITableViewController
 		super
 		current_actions_image = UIImage.imageNamed 'images/glyphicons_193_circle_ok.png'
 		change_context_image = UIImage.imageNamed 'images/glyphicons_370_globe_af.png'
-		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: current_actions_image, tag: 1)
+		self.tabBarItem = UITabBarItem.alloc.initWithTitle('Next actions', image: current_actions_image, tag: 2)
 		self
  	end
 
