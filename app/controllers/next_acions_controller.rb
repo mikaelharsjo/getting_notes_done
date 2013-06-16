@@ -37,6 +37,11 @@ class NextActionsController < UITableViewController
 	def viewDidAppear(animated)
 		if @tags	
 			fetch_actions_from_evernote
+		else
+			Tags.fetch do |tags|
+				@tags = tags
+				fetch_actions_from_evernote
+			end
 		end
 	end
 
@@ -59,7 +64,6 @@ class NextActionsController < UITableViewController
 				@actions << Note.new(note.title, note.guid, when_tags.first)				
 			end
 
-			@actions.each {|action| p action.when}
 			@actions.sort! {|a, b| a.when.name <=> b.when.name}
 			
 			self.refreshControl.endRefreshing

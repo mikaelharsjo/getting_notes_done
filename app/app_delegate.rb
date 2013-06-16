@@ -8,6 +8,7 @@ class AppDelegate
 		@session = EvernoteSession.sharedSession
 		@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
 		next_actions_controller_without_tags = NextActionsController.alloc.init
+		next_actions_controller_without_tags_2 = NextActionsController.alloc.init
    		@window.rootViewController = next_actions_controller_without_tags
 		@window.makeKeyAndVisible
 
@@ -15,27 +16,14 @@ class AppDelegate
 
 		auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 		auth_nav_controller = UINavigationController.alloc.initWithRootViewController auth_controller
-		next_actions_nav_controller_without_tags = UINavigationController.alloc.initWithRootViewController next_actions_nav_controller_without_tags
-		tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
+		next_actions_nav_controller_without_tags = UINavigationController.alloc.initWithRootViewController next_actions_controller_without_tags_2
+		@tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
 
 		unless @session.isAuthenticated
-			tab_controller.viewControllers = [auth_nav_controller, next_actions_nav_controller_without_tags]
-			@window.rootViewController = tab_controller
+			@tab_controller.viewControllers = [auth_nav_controller, next_actions_nav_controller_without_tags]
+			@window.rootViewController = @tab_controller
 		else
-			Notebook.fetch 'action pending' do |notebook|
-				@notebook_guid = notebook.guid
-				Tags.fetch do |tags|
-					p 'fetched'
-					next_actions_controller = NextActionsController.alloc.init_with_tags_and_notebook_guid tags, @notebook_guid					
-					edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags
-
-					next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
-					edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
-					
-					tab_controller.viewControllers = [next_actions_nav_controller, edit_filter_nav_controller]
-					@window.rootViewController = tab_controller
-				end
-			end
+			load_default_controllers
 		end
 
 	    # show splash Screen
@@ -53,6 +41,22 @@ class AppDelegate
 		end) 
 		
 		true
+	end
+
+	def load_default_controllers
+		Notebook.fetch 'action pending' do |notebook|
+			@notebook_guid = notebook.guid
+			Tags.fetch do |tags|
+				next_actions_controller = NextActionsController.alloc.init_with_tags_and_notebook_guid tags, @notebook_guid					
+				edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags
+
+				next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
+				edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
+				
+				@tab_controller.viewControllers = [next_actions_nav_controller, edit_filter_nav_controller]
+				@window.rootViewController = @tab_controller
+			end
+		end
 	end
 
 	def global_styles
