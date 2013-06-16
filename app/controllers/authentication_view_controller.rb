@@ -5,6 +5,9 @@ class AuthenticationViewController < UIViewController
 	end
 
 	def viewDidAppear animated
+		#App.alert("Welcome to Actions!", {
+		#	cancel_button_title: "Let´s go!", 
+		#	message: "Sign in to Evernote and start organize your todos."})
 		launchEvernoteAuth
 	end
 
@@ -33,7 +36,7 @@ class AuthenticationViewController < UIViewController
 
  	def initWithNibName(name, bundle: bundle)
 		super
-		self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: nil, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
+		#self.tabBarItem = UITabBarItem.alloc.initWithTitle('@work', image: nil, tag: 1)  #initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag: 1)
 		#self.tabBarItem
 		self
  	end

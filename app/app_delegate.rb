@@ -7,31 +7,34 @@ class AppDelegate
 		EvernoteSession.setSharedSessionHost(EVERNOTE_HOST, consumerKey:CONSUMER_KEY, consumerSecret:CONSUMER_SECRET)
 		@session = EvernoteSession.sharedSession
 		@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-   		@window.rootViewController = NextActionsController.alloc.init
+		next_actions_controller_without_tags = NextActionsController.alloc.init
+   		@window.rootViewController = next_actions_controller_without_tags
 		@window.makeKeyAndVisible
 
 		global_styles
 
-		Notebook.fetch 'action pending' do |notebook|
-			@notebook_guid = notebook.guid
-			Tags.fetch do |tags|
-				next_actions_controller = NextActionsController.alloc.init_with_tags_and_notebook_guid tags, @notebook_guid
-				next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
-				
-				edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags
-				edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
+		auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
+		auth_nav_controller = UINavigationController.alloc.initWithRootViewController auth_controller
+		next_actions_nav_controller_without_tags = UINavigationController.alloc.initWithRootViewController next_actions_nav_controller_without_tags
+		tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
 
-				auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
+		unless @session.isAuthenticated
+			tab_controller.viewControllers = [auth_nav_controller, next_actions_nav_controller_without_tags]
+			@window.rootViewController = tab_controller
+		else
+			Notebook.fetch 'action pending' do |notebook|
+				@notebook_guid = notebook.guid
+				Tags.fetch do |tags|
+					p 'fetched'
+					next_actions_controller = NextActionsController.alloc.init_with_tags_and_notebook_guid tags, @notebook_guid					
+					edit_filter_controller = EditFilterViewController.alloc.init_with_tags tags
 
-				tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
-
-				if @session.isAuthenticated
+					next_actions_nav_controller = UINavigationController.alloc.initWithRootViewController next_actions_controller
+					edit_filter_nav_controller = UINavigationController.alloc.initWithRootViewController edit_filter_controller
+					
 					tab_controller.viewControllers = [next_actions_nav_controller, edit_filter_nav_controller]
-				else
-					tab_controller.viewControllers = [auth_controller, next_actions_nav_controller]
+					@window.rootViewController = tab_controller
 				end
-
-				@window.rootViewController = tab_controller
 			end
 		end
 
