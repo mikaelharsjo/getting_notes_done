@@ -8,7 +8,6 @@ class AppDelegate
 		@session = EvernoteSession.sharedSession
 		@window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
 		next_actions_controller_without_tags = NextActionsController.alloc.init
-		#next_actions_controller_without_tags_2 = NextActionsController.alloc.init
    		@window.rootViewController = next_actions_controller_without_tags
 		@window.makeKeyAndVisible
 
@@ -16,14 +15,13 @@ class AppDelegate
 
 		auth_controller = AuthenticationViewController.alloc.initWithNibName(nil, bundle: nil)
 		auth_nav_controller = UINavigationController.alloc.initWithRootViewController auth_controller
-		#next_actions_nav_controller_without_tags = UINavigationController.alloc.initWithRootViewController next_actions_controller_without_tags_2
 		@tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
 
-		#unless @session.isAuthenticated
-		@window.rootViewController = auth_nav_controller
-		#else
-		#	load_default_controllers
-		#end
+		unless @session.isAuthenticated
+			@window.rootViewController = auth_nav_controller
+		else
+			load_default_controllers
+		end
 
 	    # show splash Screen
 		image = (568 == UIScreen.mainScreen.bounds.size.height) ? ("Default-568h") : ("Default")
