@@ -1,11 +1,11 @@
 class IntroViewController < UIViewController
 	CONTENT = 'Thanks for giving us a try! To start storing your next actions in the cloud, sign in to your Evernote account.'
 	def viewDidLoad
-		title_font = UIFont.fontWithName("Delius-Regular", size:25)
+		title_font = UIFont.fontWithName("Delius-Regular", size:22)
 		self.view.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed('images/notes_table_bg.png'))
   		title = UILabel.new
 		title.font = title_font
-		title.text = "Welcome to actions!"
+		title.text = "Welcome to Next Actions!"
 		title.frame = [[60, 10], [320, 30]]
 		title.backgroundColor = UIColor.clearColor
 
