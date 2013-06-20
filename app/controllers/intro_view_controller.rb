@@ -23,6 +23,9 @@ class IntroViewController < UIViewController
 		button.setTitle "Goto signin", forState: UIControlStateNormal
 		button.frame = [[100, 200], [150, 50]]
 
+		button.when(UIControlEventTouchUpInside) do
+  			self.navigationController.pushViewController(AuthenticationViewController.alloc.init, animated:true)
+		end
 
 		self.view.addSubview title
 		self.view.addSubview content
