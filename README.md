@@ -16,5 +16,4 @@ iOS app for [Getting things done](http://en.wikipedia.org/wiki/Getting_Things_Do
 * Every action you track is a note.
 * We organize the actions using some notebook conventions. Unfinished is stored in 'Action Pending' and when it´s checked we move it into 'Completed'
 * We add context (Where?, What?, When?, Who?) using hierarchical tags.
-* * Example
 * All notebooks and tags are automatically created when you run the app the first time.
