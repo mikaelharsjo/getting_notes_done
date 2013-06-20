@@ -1,16 +1,14 @@
 #Next Actions
-==================
 
 ## What?
 iOS app for [Getting things done](http://en.wikipedia.org/wiki/Getting_Things_Done) with [Evernote](http://www.evernote.com). We focus only on the tracking of 'actionable items', the things that´s needs to get done.
 
 ## Why?
-* Keep all your to-dos in one system (Evernote).
-* Groups to-dos by your location (context). Instead of seeing all your 100 to-dos, you see only those that you can act on right now. 
+* Keep all your action items in one system (Evernote) that's always accesible.
+* Groups action items by your location (context). Instead of seeing all your 100 actions, you see only those that you can act on right now.
 * Items are sorted by priority
-* Capture to-dos anywhere exactly when you first think of them. Tag them with context (When, Where, What, Who)
-* Keep you in control and not overwhelmed even if you have a TON of things to do.
-* Quickly check item of your to-do list
+* Capture actions anywhere exactly when you first think of them. Using the app or any other Evernote interface.
+* Quickly check item of your list when they´re done.
  
 ## How?
 * Every action you track is a note.
