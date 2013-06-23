@@ -10,7 +10,10 @@ Motion::Project::App.setup do |app|
   app.name = 'Getting Notes Done'
   app.icons = ['images/icon_iphone.png', 'images/icon_iphone_retina.png']
   app.prerendered_icon = true
-  app.frameworks += ['Security', 'QuartzCore']
+  app.frameworks += ['Security', 'StoreKit']
+  app.codesign_certificate = 'iPhone Distribution: Mikael Harsjo'
+  app.identifier = 'com.mikaelharsjo.gnd*'
+  app.provisioning_profile = '/Users/mikaelharsjo/Library/MobileDevice/Provisioning Profiles/A9C3C9D1-6BBD-448A-A0B1-167253F0DC84.mobileprovision'
   app.pods do
     pod 'Evernote-SDK-iOS'
   end
