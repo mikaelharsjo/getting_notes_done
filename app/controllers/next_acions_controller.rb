@@ -24,8 +24,7 @@ class NextActionsController < UITableViewController
 		self.title = "Next actions"
 		@actions = Array.new
 
-		image_view = UIImageView.alloc.initWithImage(UIImage.imageNamed('images/notes_table_bg.png'))
-		self.tableView.backgroundView = image_view
+		self.tableView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed('images/notes_table_bg.png'))
 
 		self.refreshControl = UIRefreshControl.alloc.init
 		self.refreshControl.addTarget self, action: 'fetch_actions_from_evernote', forControlEvents: UIControlEventValueChanged

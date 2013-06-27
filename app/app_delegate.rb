@@ -20,11 +20,11 @@ class AppDelegate
 		intro_nav_controller = UINavigationController.alloc.initWithRootViewController intro_controller
 		@tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
 
-		#unless @session.isAuthenticated
-		@window.rootViewController = intro_nav_controller
-		#else
-		#	load_default_controllers
-		#end
+		unless @session.isAuthenticated
+			@window.rootViewController = intro_nav_controller
+		else
+			load_default_controllers
+		end
 
 	    # show splash Screen
 		image = (568 == UIScreen.mainScreen.bounds.size.height) ? ("Default-568h") : ("Default")

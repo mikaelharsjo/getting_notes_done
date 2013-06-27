@@ -1,8 +1,5 @@
 class AuthenticationViewController < UIViewController
 	def viewDidAppear animated
-		#App.alert("Welcome to Actions!", {
-		#	cancel_button_title: "Let´s go!", 
-		#	message: "Sign in to Evernote and start organize your todos."})
 		authenticate
 	end
 
