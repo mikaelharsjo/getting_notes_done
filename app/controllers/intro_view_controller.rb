@@ -22,7 +22,7 @@ When you sign in we will prepare your account by adding two notebooks and a few 
 		content.lineBreakMode = NSLineBreakByWordWrapping
 
 		button = UIButton.buttonWithType UIButtonTypeCustom
-		button.setBackgroundImage UIImage.imageNamed('images/blue-button.png'), forState: UIControlStateNormal
+		#button.setBackgroundImage UIImage.imageNamed('images/blue-button.png'), forState: UIControlStateNormal
 		button.setTitle "Ok, let´s go!", forState: UIControlStateNormal
 		button.frame = [[100, 280], [150, 50]]
 

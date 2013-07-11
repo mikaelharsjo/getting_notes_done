@@ -20,11 +20,11 @@ class NextActionsController < UITableViewController
  	end
 
 	def viewDidLoad
-		view.backgroundColor = UIColor.whiteColor
+		#view.backgroundColor = UIColor.clearColor
 		self.title = "Next actions"
 		@actions = Array.new
 
-		self.tableView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed('images/notes_table_bg.png'))
+		#self.tableView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed('images/notes_table_bg.png'))
 
 		self.refreshControl = UIRefreshControl.alloc.init
 		self.refreshControl.addTarget self, action: 'fetch_actions_from_evernote', forControlEvents: UIControlEventValueChanged
@@ -52,9 +52,11 @@ class NextActionsController < UITableViewController
 		action_fetcher.fetch notes_loaded
 	end
 
-	def notes_loaded
+	def notes_loaded		
 		@actions.clear
 		lambda do |meta_data|
+			p meta_data.notes
+			meta_data.notes.clear
 			meta_data.notes.each do |note|
 				when_tags = []
 				note.tagGuids.each do |tag_guid| 
