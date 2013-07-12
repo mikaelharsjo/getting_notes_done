@@ -56,12 +56,14 @@ class NextActionsController < UITableViewController
 		@actions.clear
 		lambda do |meta_data|
 			p meta_data.notes
-			meta_data.notes.clear
+			puts meta_data.notes.class()
+			meta_data.notes.each {|n| p n}
 			meta_data.notes.each do |note|
+				#p note.tagGuids
 				when_tags = []
-				note.tagGuids.each do |tag_guid| 
-					when_tags = @tags.when_tags.select {|when_tag| when_tag.guid == tag_guid}
-				end
+				#note.tagGuids.each do |tag_guid| 
+				#	when_tags = @tags.when_tags.select {|when_tag| when_tag.guid == tag_guid}
+				#end
 				@actions << Note.new(note.title, note.guid, when_tags.first)				
 			end
 
@@ -103,7 +105,8 @@ class NextActionsController < UITableViewController
 		check_button = UIButton.buttonWithType UIButtonTypeRoundedRect
 		check_button.backgroundColor = UIColor.clearColor
 		checked_image = UIImage.imageNamed('images/black_checkbox_checked.png')
-		check_button.setBackgroundImage UIImage.imageNamed('images/black_checkbox.png'), forState: UIControlStateNormal
+		checked_image = checked_image.imageWithRenderingMode UIImageRenderingModeAlwaysTemplate
+		check_button.setBackgroundImage checked_image, forState: UIControlStateNormal # UIImage.imageNamed('images/black_checkbox_checked.png'), forState: UIControlStateNormal
 		check_button.setBackgroundImage checked_image, forState: UIControlStateSelected
 		check_button.setBackgroundImage checked_image, forState: UIControlStateHighlighted
 		check_button.adjustsImageWhenHighlighted = true
@@ -115,7 +118,7 @@ class NextActionsController < UITableViewController
 
 	def create_label indexPath
 		label = UILabel.alloc.initWithFrame label_rect
-		label.font = UIFont.fontWithName('Inconsolata', size: 19)
+		#label.font = UIFont.fontWithName('Inconsolata', size: 19)
 		label.text = "#{indexPath.row + 1}. #{@actions[indexPath.row].title}"
 		label.backgroundColor = UIColor.clearColor
 		label
