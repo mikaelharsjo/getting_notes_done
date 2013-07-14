@@ -10,7 +10,7 @@ class AppDelegate
 		next_actions_controller_without_tags = NextActionsController.alloc.init
    		@window.rootViewController = next_actions_controller_without_tags
 		@window.makeKeyAndVisible
-		@window.tintColor = UIColor.greenColor
+		#@window.tintColor = UIColor.greenColor
 		#@window.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed('images/notes_table_bg.png'))
 
 		global_styles
@@ -62,6 +62,9 @@ class AppDelegate
 	end
 
 	def global_styles
+		#bar.barTintColor = UIColor.greenColor
+
+
 		#UINavigationBar.appearance.setBackgroundImage UIImage.imageNamed('images/menu-bar.png'), forBarMetrics: UIBarMetricsDefault
 		#back_button_image = UIImage.imageNamed 'images/back.png'
 		#UIBarButtonItem.appearance.setBackButtonBackgroundImage back_button_image, forState:UIControlStateNormal, barMetrics:UIBarMetricsDefault

@@ -24,6 +24,7 @@ class Tags
 			tags_to_return.what_tags = tags_with_parent tags, what_root_tag
 			tags_to_return.who_tags = tags_with_parent tags, who_root_tag
 
+
 			block.call(tags_to_return)
 
 		end, failure: nil)

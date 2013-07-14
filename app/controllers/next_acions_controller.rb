@@ -34,6 +34,7 @@ class NextActionsController < UITableViewController
 	end
 
 	def viewDidAppear(animated)
+		p 'viewDidAppear'
 		if @tags	
 			fetch_actions_from_evernote
 		else
@@ -52,23 +53,32 @@ class NextActionsController < UITableViewController
 		action_fetcher.fetch notes_loaded
 	end
 
-	def notes_loaded		
-		@actions.clear
+	def present_actions(&block)
 		lambda do |meta_data|
-			p meta_data.notes
-			puts meta_data.notes.class()
-			meta_data.notes.each {|n| p n}
+			actions = Array.new
 			meta_data.notes.each do |note|
-				#p note.tagGuids
+				p note.tagGuids
 				when_tags = []
 				#note.tagGuids.each do |tag_guid| 
 				#	when_tags = @tags.when_tags.select {|when_tag| when_tag.guid == tag_guid}
 				#end
-				@actions << Note.new(note.title, note.guid, when_tags.first)				
+				actions << Note.new(note.title, note.guid, when_tags.first)				
 			end
 
-			@actions.sort! {|a, b| a.when.name <=> b.when.name}
+			actions.sort! {|a, b| a.when.name <=> b.when.name}
 			
+			block.call(actions)
+		end
+	end
+
+	def notes_loaded		
+		@actions.clear
+		present_actions &refresh_ui
+	end
+
+	def refresh_ui
+		lambda do |actions|
+			@actions = actions
 			self.refreshControl.endRefreshing
 			self.tableView.reloadData
 		end
