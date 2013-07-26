@@ -1,10 +1,9 @@
 class Notebook
 	def initialize
-		session = EvernoteSession.sharedSession
 		@note_store = EvernoteNoteStore.noteStore
 	end
 
-	def self.fetch name, &block
+	def self.fetch(name, &block)
 		@name = name
  		@block = block
 		note_store = EvernoteNoteStore.noteStore
@@ -13,10 +12,8 @@ class Notebook
 
 	def self.fetched_all_notebooks
 		lambda do |notebooks|
-			completed_notebook = notebooks.detect{|notebook| notebook.name.downcase == @name}
-			if completed_notebook
-				@block.call(completed_notebook)
-			end
-		end	
+			completed_notebook = notebooks.find { |notebook| notebook.name.downcase == @name }
+			@block.call(completed_notebook) if completed_notebook
+		end
 	end
 end

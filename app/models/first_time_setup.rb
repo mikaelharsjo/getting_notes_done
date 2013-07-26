@@ -1,7 +1,7 @@
 class FirstTimeSetup
 	include EvernoteHelpers
-	
-	def initialize note_store
+
+	def initialize(note_store)
 		@note_store = note_store
 	end
 
@@ -12,19 +12,22 @@ class FirstTimeSetup
 		create_parent_tag_with_name 'Where', create_where_children_tags
 		create_parent_tag_with_name 'When', create_when_children_tags
 		create_parent_tag_with_name 'What', create_what_children_tags
-		create_parent_tag_with_name 'Who', lambda { nil }
+		create_parent_tag_with_name 'Who', ->{ nil }
 	end
 
 	private
 
-	def create_notebook_with_name name
+	def create_notebook_with_name(name)
 		puts 'create_notebook_with_name'
 		notebook = EDAMNotebook.alloc.init
 		notebook.name = name
-		@note_store.createNotebook notebook, success: lambda {|notebook| puts notebook.name}, failure: output_error
+		@note_store.createNotebook(
+			notebook,
+			success: ->(created_notebook) { puts created_notebook.name },
+			failure: output_error)
 	end
 
-	def create_parent_tag_with_name name, success
+	def create_parent_tag_with_name(name, success)
 		puts 'create_parent_tag_with_name'
 		where_tag = EDAMTag.alloc.init
 		where_tag.name = name
@@ -61,11 +64,14 @@ class FirstTimeSetup
 		end
 	end
 
-	def create_child_tag_with_name name, parent_tag
+	def create_child_tag_with_name(name, parent_tag)
 		puts 'create_child_tag_with_name'
 		tag = EDAMTag.alloc.init
 		tag.name = name
 		tag.parentGuid = parent_tag.guid
-		@note_store.createTag tag, success: lambda {|tag| puts tag}, failure: output_error 	 
+		@note_store.createTag(
+			tag,
+			success: ->(created_tag) { puts created_tag },
+			failure: output_error)
 	end
 end
