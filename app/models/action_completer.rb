@@ -2,7 +2,6 @@ class ActionCompleter
 	include EvernoteHelpers
 
 	def initialize
-		session = EvernoteSession.sharedSession
 		@note_store = EvernoteNoteStore.noteStore
 	end
 
