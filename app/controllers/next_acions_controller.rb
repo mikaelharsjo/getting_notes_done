@@ -20,17 +20,18 @@ class NextActionsController < UITableViewController
  	end
 
 	def viewDidLoad
-		#view.backgroundColor = UIColor.clearColor
 		self.title = "Next actions"
 		@actions = Array.new
 
-		#self.tableView.backgroundColor = UIColor.colorWithPatternImage(UIImage.imageNamed('images/notes_table_bg.png'))
-
 		self.refreshControl = UIRefreshControl.alloc.init
-		self.refreshControl.addTarget self, action: 'fetch_actions_from_evernote', forControlEvents: UIControlEventValueChanged
+		self.refreshControl.addTarget self, action: 'fetch_actions_from_evernote', forControlEvents: UIControlEventValueChanged	
+	
+		append_add_button
+	end
 
+	def append_add_button
 		nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target: self, action: 'add_action')
-		self.navigationItem.rightBarButtonItem = nav_add_button		
+		self.navigationItem.rightBarButtonItem = nav_add_button	
 	end
 
 	def viewDidAppear(animated)
@@ -104,13 +105,12 @@ class NextActionsController < UITableViewController
 		check_button.adjustsImageWhenHighlighted = true
 		check_button.addTarget self, action: 'checkbox_selected:', forControlEvents: UIControlEventTouchUpInside
 		check_button.frame = check_button_rect
-		check_button.tag = indexPath.row #@actions[indexPath.row].guid
+		check_button.tag = indexPath.row
 		check_button
 	end
 
 	def create_label indexPath
 		label = UILabel.alloc.initWithFrame label_rect
-		#label.font = UIFont.fontWithName('Inconsolata', size: 19)
 		label.text = "#{indexPath.row + 1}. #{@actions[indexPath.row].title}"
 		label.backgroundColor = UIColor.clearColor
 		label
