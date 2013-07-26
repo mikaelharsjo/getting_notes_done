@@ -1,0 +1,9 @@
+Encoding:
+  Enabled: false
+
+LineLength:
+  Enabled: true
+  Max: 200
+
+Tab:
+  Enabled: false
