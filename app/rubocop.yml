@@ -3,7 +3,7 @@ Encoding:
 
 LineLength:
   Enabled: true
-  Max: 200
+  Max: 100
 
 Tab:
   Enabled: false
