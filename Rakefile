@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/ios'
+require 'motion_model'
 require 'motion-cocoapods'
 require 'bubble-wrap'
 require 'formotion'
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
-  app.fonts = ['fonts/Inconsolata.ttf', 'fonts/one_stroke_script.ttf', 'fonts/Delius-Regular.ttf', 'fonts/PermanentMarker.ttf'] 
+  app.fonts = ['fonts/Inconsolata.ttf', 'fonts/one_stroke_script.ttf', 'fonts/Delius-Regular.ttf', 'fonts/PermanentMarker.ttf']
   app.name = 'Getting Notes Done'
   app.icons = ['images/icon_iphone.png', 'images/icon_iphone_retina.png']
   app.prerendered_icon = true
@@ -18,7 +19,7 @@ Motion::Project::App.setup do |app|
     pod 'Evernote-SDK-iOS'
   end
   app.info_plist['CFBundleURLTypes'] = [
-    { 
+    {
       'CFBundleURLSchemes' => ['en-mikaelharsjo'] }
   ]
 end
