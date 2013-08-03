@@ -5,6 +5,7 @@ require 'motion_model'
 require 'motion-cocoapods'
 require 'bubble-wrap'
 require 'formotion'
+
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.fonts = ['fonts/Inconsolata.ttf', 'fonts/one_stroke_script.ttf', 'fonts/Delius-Regular.ttf', 'fonts/PermanentMarker.ttf']
