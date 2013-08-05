@@ -24,18 +24,18 @@ class NextActionsController < UITableViewController
 		@actions = Array.new
 
 		self.refreshControl = UIRefreshControl.alloc.init
-		self.refreshControl.addTarget self, action: 'fetch_actions_from_evernote', forControlEvents: UIControlEventValueChanged	
-	
+		self.refreshControl.addTarget self, action: 'fetch_actions_from_evernote', forControlEvents: UIControlEventValueChanged
+
 		append_add_button
 	end
 
 	def append_add_button
 		nav_add_button = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target: self, action: 'add_action')
-		self.navigationItem.rightBarButtonItem = nav_add_button	
+		self.navigationItem.rightBarButtonItem = nav_add_button
 	end
 
 	def viewDidAppear(animated)
-		if @tags	
+		if @tags
 			fetch_actions_from_evernote
 		else
 			Tags.fetch do |tags|
@@ -53,7 +53,7 @@ class NextActionsController < UITableViewController
 		action_fetcher.fetch(notes_loaded)
 	end
 
-	def notes_loaded		
+	def notes_loaded
 		@actions.clear
 		action_presenter = ActionPresenter.new
 		action_presenter.present_and_sort(@tags, &refresh_ui)
@@ -126,7 +126,7 @@ class NextActionsController < UITableViewController
 		@actions.count
 	end
 
-	def add_action				
+	def add_action
 		add_action_controller = AddActionViewController.alloc.init_with_tags_and_notebook_guid @tags, @notebook_guid
 		self.navigationController.pushViewController(add_action_controller, animated:'YES')
 	end
